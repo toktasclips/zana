@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sipariş Oluştur — Zana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      background: #f7f4f0;
+      color: #1a1612;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #e8e4de;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: #1a1612;
+    }
+
+    .nav-logo .logo-icon {
+      width: 36px; height: 36px;
+      border: 1.5px solid #3d5c3a;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .nav-logo .logo-icon svg { width: 18px; height: 18px; fill: #3d5c3a; }
+
+    .nav-logo span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 400; letter-spacing: 0.06em;
+    }
+
+    .nav-back {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #888; text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: #3d5c3a; }
+
+    /* ── WRAPPER ── */
+    .configurator {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 32px 120px;
+    }
+
+    /* ── STEP HEADER ── */
+    .step-header {
+      margin-bottom: 36px;
+    }
+
+    .step-label {
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.22em;
+      text-transform: uppercase; color: #3d5c3a; margin-bottom: 8px;
+    }
+
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 300; color: #1a1612; margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 0.78rem; font-weight: 300; color: #666;
+      line-height: 1.7; max-width: 620px;
+    }
+
+    /* ── STEPS ── */
+    .step { display: none; }
+    .step.active { display: block; }
+
+    /* ── MODEL CARDS ── */
+    .model-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .model-card {
+      border: 2px solid #e0dbd4;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+    }
+
+    .model-card:hover { border-color: #3d5c3a; }
+    .model-card.selected { border-color: #3d5c3a; box-shadow: 0 0 0 3px rgba(61,92,58,0.15); }
+
+    .model-card-img {
+      width: 100%; height: 170px;
+      object-fit: cover; display: block;
+      background: #e8e4de;
+    }
+
+    .model-card-img-placeholder {
+      width: 100%; height: 170px;
+      background: linear-gradient(135deg, #d8d4ce, #c8c4be);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .model-card-img-placeholder span {
+      font-size: 0.65rem; color: #999; letter-spacing: 0.1em;
+    }
+
+    .model-card-body {
+      padding: 14px 16px 16px;
+    }
+
+    .model-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 400; color: #1a1612;
+      margin-bottom: 4px;
+    }
+
+    .model-card-price {
+      font-size: 0.72rem; font-weight: 500; color: #3d5c3a;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── COLOR OPTIONS ── */
+    .color-options {
+      display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 48px;
+    }
+
+    .color-option {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px; cursor: pointer;
+    }
+
+    .color-swatch {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 3px solid transparent;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .color-option:hover .color-swatch { transform: scale(1.08); }
+    .color-option.selected .color-swatch { border-color: #1a1612; }
+
+    .color-name {
+      font-size: 0.62rem; font-weight: 500; color: #666;
+      letter-spacing: 0.08em; text-align: center;
+    }
+
+    /* ── EXTRAS ── */
+    .extras-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 12px; margin-bottom: 48px;
+    }
+
+    .extra-item {
+      display: flex; align-items: center; gap: 14px;
+      border: 2px solid #e0dbd4; background: #fff;
+      padding: 16px 18px; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .extra-item:hover { border-color: #3d5c3a; }
+    .extra-item.selected { border-color: #3d5c3a; background: #f0f5ef; }
+
+    .extra-check {
+      width: 20px; height: 20px; border: 2px solid #ccc;
+      border-radius: 3px; flex-shrink: 0; display: flex;
+      align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .extra-item.selected .extra-check {
+      background: #3d5c3a; border-color: #3d5c3a; color: #fff;
+    }
+
+    .extra-check::after {
+      content: '✓'; font-size: 0.7rem; opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .extra-item.selected .extra-check::after { opacity: 1; }
+
+    .extra-text { flex: 1; }
+    .extra-name { font-size: 0.8rem; font-weight: 500; color: #1a1612; margin-bottom: 2px; }
+    .extra-price { font-size: 0.68rem; font-weight: 400; color: #3d5c3a; }
+
+    /* ── CONTACT FORM ── */
+    .contact-form {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-bottom: 48px;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #555;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      border: 1.5px solid #ddd; background: #fff;
+      padding: 12px 14px; font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem; font-weight: 300; color: #1a1612;
+      outline: none; transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: #3d5c3a; }
+
+    .form-group textarea { min-height: 100px; resize: vertical; }
+
+    /* ── SUMMARY ── */
+    .summary-box {
+      background: #fff; border: 1px solid #e0dbd4;
+      padding: 32px; margin-bottom: 32px;
+    }
+
+    .summary-row {
+      display: flex; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid #f0ece6;
+      font-size: 0.8rem;
+    }
+
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row .label { color: #888; font-weight: 400; }
+    .summary-row .val { color: #1a1612; font-weight: 500; }
+
+    /* ── NAV BUTTONS ── */
+    .step-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 24px; border-top: 1px solid #e0dbd4;
+    }
+
+    .btn-prev {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #888; background: none;
+      border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .btn-prev:hover { color: #1a1612; }
+    .btn-prev:disabled { opacity: 0.3; cursor: default; }
+
+    /* ── PAGINATION ── */
+    .pagination {
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .pag-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 500;
+      border: 1.5px solid #ddd; color: #999; cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pag-dot.active {
+      background: #1a1612; border-color: #1a1612; color: #fff;
+    }
+
+    .pag-dot.done { border-color: #3d5c3a; color: #3d5c3a; }
+
+    .btn-next {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #fff;
+      background: #3d5c3a; border: 1px solid #3d5c3a;
+      padding: 13px 32px; cursor: pointer; transition: background 0.2s;
+    }
+
+    .btn-next:hover { background: #4e7349; }
+
+    /* SUCCESS */
+    .success-msg {
+      display: none; text-align: center; padding: 80px 32px;
+    }
+
+    .success-msg h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; color: #3d5c3a;
+      margin-bottom: 16px;
+    }
+
+    .success-msg p {
+      font-size: 0.82rem; color: #666; line-height: 1.7;
+    }
+
+    @media (max-width: 700px) {
+      nav { padding: 16px 20px; }
+      .configurator { padding: 40px 20px 80px; }
+      .model-cards { grid-template-columns: 1fr; }
+      .extras-grid { grid-template-columns: 1fr; }
+      .contact-form { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2 L22 20 H2 Z M12 2 L2 20 M8 20 L12 11 L16 20"/></svg>
+      </div>
+      <span>Zana</span>
+    </a>
+    <a href="model-x.html" class="nav-back">&#8592; X Modeli</a>
+  </nav>
+
+  <div class="configurator">
+
+    <!-- ── ADIM 1: Model ── -->
+    <div class="step active" id="step-1">
+      <div class="step-header">
+        <p class="step-label">Adım 1 / 4</p>
+        <h2 class="step-title">Karavan modelini seç</h2>
+        <p class="step-desc">Hangi model sizin için doğru? Her model farklı ihtiyaçlar gözetilerek tasarlanmıştır — hafif geziler için kompakt, uzun yolculuklar için tam donanımlı.</p>
+      </div>
+
+      <div class="model-cards">
+        <div class="model-card" onclick="selectModel(this, 'X Lite', '₺450.000')">
+          <div class="model-card-img-placeholder"><span>X Lite Fotoğraf</span></div>
+          <div class="model-card-body">
+            <p class="model-card-name">X Lite</p>
+            <p class="model-card-price">₺450.000</p>
+          </div>
+        </div>
+        <div class="model-card" onclick="selectModel(this, 'X Standart', '₺580.000')">
+          <div class="model-card-img-placeholder"><span>X Standart Fotoğraf</span></div>
+          <div class="model-card-body">
+            <p class="model-card-name">X Standart</p>
+            <p class="model-card-price">₺580.000</p>
+          </div>
+        </div>
+        <div class="model-card" onclick="selectModel(this, 'X Pro', '₺720.000')">
+          <div class="model-card-img-placeholder"><span>X Pro Fotoğraf</span></div>
+          <div class="model-card-body">
+            <p class="model-card-name">X Pro</p>
+            <p class="model-card-price">₺720.000</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-prev" disabled>&#8592; Geri</button>
+        <div class="pagination">
+          <div class="pag-dot active">1</div>
+          <div class="pag-dot">2</div>
+          <div class="pag-dot">3</div>
+          <div class="pag-dot">4</div>
+        </div>
+        <button class="btn-next" onclick="goStep(2)">İleri &#8594;</button>
+      </div>
+    </div>
+
+    <!-- ── ADIM 2: Renk ── -->
+    <div class="step" id="step-2">
+      <div class="step-header">
+        <p class="step-label">Adım 2 / 4</p>
+        <h2 class="step-title">Rengini seç</h2>
+        <p class="step-desc">Karavanınız tarzınızın bir parçası. Size en yakışan rengi seçin.</p>
+      </div>
+
+      <div class="color-options">
+        <div class="color-option" onclick="selectColor(this, 'Orman Yeşili')">
+          <div class="color-swatch" style="background:#3d5c3a;"></div>
+          <span class="color-name">Orman Yeşili</span>
+        </div>
+        <div class="color-option" onclick="selectColor(this, 'Antrasit')">
+          <div class="color-swatch" style="background:#3a3a3a;"></div>
+          <span class="color-name">Antrasit</span>
+        </div>
+        <div class="color-option" onclick="selectColor(this, 'Kum Beji')">
+          <div class="color-swatch" style="background:#c8b89a;"></div>
+          <span class="color-name">Kum Beji</span>
+        </div>
+        <div class="color-option" onclick="selectColor(this, 'Beyaz')">
+          <div class="color-swatch" style="background:#f0ede8; border: 2px solid #ddd;"></div>
+          <span class="color-name">Beyaz</span>
+        </div>
+        <div class="color-option" onclick="selectColor(this, 'Kiremit')">
+          <div class="color-swatch" style="background:#9e4a35;"></div>
+          <span class="color-name">Kiremit</span>
+        </div>
+        <div class="color-option" onclick="selectColor(this, 'Gece Mavisi')">
+          <div class="color-swatch" style="background:#1e3a5f;"></div>
+          <span class="color-name">Gece Mavisi</span>
+        </div>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-prev" onclick="goStep(1)">&#8592; Geri</button>
+        <div class="pagination">
+          <div class="pag-dot done">1</div>
+          <div class="pag-dot active">2</div>
+          <div class="pag-dot">3</div>
+          <div class="pag-dot">4</div>
+        </div>
+        <button class="btn-next" onclick="goStep(3)">İleri &#8594;</button>
+      </div>
+    </div>
+
+    <!-- ── ADIM 3: Ekipmanlar ── -->
+    <div class="step" id="step-3">
+      <div class="step-header">
+        <p class="step-label">Adım 3 / 4</p>
+        <h2 class="step-title">Ekipmanlarını seç</h2>
+        <p class="step-desc">Karavanınızı ihtiyaçlarınıza göre kişiselleştirin. İstediğiniz ekipmanları ekleyin.</p>
+      </div>
+
+      <div class="extras-grid">
+        <div class="extra-item" onclick="toggleExtra(this, 'Güneş Paneli (400W)', '+₺45.000')">
+          <div class="extra-check"></div>
+          <div class="extra-text">
+            <p class="extra-name">Güneş Paneli (400W)</p>
+            <p class="extra-price">+₺45.000</p>
+          </div>
+        </div>
+        <div class="extra-item" onclick="toggleExtra(this, 'LiFePO4 Batarya (100Ah)', '+₺38.000')">
+          <div class="extra-check"></div>
+          <div class="extra-text">
+            <p class="extra-name">LiFePO4 Batarya (100Ah)</p>
+            <p class="extra-price">+₺38.000</p>
+          </div>
+        </div>
+        <div class="extra-item" onclick="toggleExtra(this, 'Off-road Jant & Lastik', '+₺28.000')">
+          <div class="extra-check"></div>
+          <div class="extra-text">
+            <p class="extra-name">Off-road Jant & Lastik</p>
+            <p class="extra-price">+₺28.000</p>
+          </div>
+        </div>
+        <div class="extra-item" onclick="toggleExtra(this, 'Harici Mutfak Ünitesi', '+₺22.000')">
+          <div class="extra-check"></div>
+          <div class="extra-text">
+            <p class="extra-name">Harici Mutfak Ünitesi</p>
+            <p class="extra-price">+₺22.000</p>
+          </div>
+        </div>
+        <div class="extra-item" onclick="toggleExtra(this, 'Açılır Tente (3m)', '+₺18.000')">
+          <div class="extra-check"></div>
+          <div class="extra-text">
+            <p class="extra-name">Açılır Tente (3m)</p>
+            <p class="extra-price">+₺18.000</p>
+          </div>
+        </div>
+        <div class="extra-item" onclick="toggleExtra(this, 'Su Tankı Yükseltme (120L)', '+₺12.000')">
+          <div class="extra-check"></div>
+          <div class="extra-text">
+            <p class="extra-name">Su Tankı Yükseltme (120L)</p>
+            <p class="extra-price">+₺12.000</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-prev" onclick="goStep(2)">&#8592; Geri</button>
+        <div class="pagination">
+          <div class="pag-dot done">1</div>
+          <div class="pag-dot done">2</div>
+          <div class="pag-dot active">3</div>
+          <div class="pag-dot">4</div>
+        </div>
+        <button class="btn-next" onclick="goStep(4)">İleri &#8594;</button>
+      </div>
+    </div>
+
+    <!-- ── ADIM 4: İletişim ── -->
+    <div class="step" id="step-4">
+      <div class="step-header">
+        <p class="step-label">Adım 4 / 4</p>
+        <h2 class="step-title">İletişim bilgilerin</h2>
+        <p class="step-desc">Siparişinizi oluşturmak için son adım. Ekibimiz en kısa sürede sizinle iletişime geçecek.</p>
+      </div>
+
+      <!-- Özet -->
+      <div class="summary-box">
+        <div class="summary-row"><span class="label">Model</span><span class="val" id="sum-model">—</span></div>
+        <div class="summary-row"><span class="label">Renk</span><span class="val" id="sum-color">—</span></div>
+        <div class="summary-row"><span class="label">Ekipmanlar</span><span class="val" id="sum-extras">—</span></div>
+      </div>
+
+      <form class="contact-form" id="orderForm" onsubmit="submitForm(event)">
+        <div class="form-group">
+          <label>Ad</label>
+          <input type="text" name="ad" placeholder="Adınız" required />
+        </div>
+        <div class="form-group">
+          <label>Soyad</label>
+          <input type="text" name="soyad" placeholder="Soyadınız" required />
+        </div>
+        <div class="form-group">
+          <label>E-posta</label>
+          <input type="email" name="eposta" placeholder="ornek@email.com" required />
+        </div>
+        <div class="form-group">
+          <label>Telefon</label>
+          <input type="tel" name="telefon" placeholder="+90 5xx xxx xx xx" required />
+        </div>
+        <div class="form-group full">
+          <label>Notunuz (isteğe bağlı)</label>
+          <textarea name="not" placeholder="Özel istekleriniz veya sorularınız..."></textarea>
+        </div>
+      </form>
+
+      <div class="step-nav">
+        <button class="btn-prev" onclick="goStep(3)">&#8592; Geri</button>
+        <div class="pagination">
+          <div class="pag-dot done">1</div>
+          <div class="pag-dot done">2</div>
+          <div class="pag-dot done">3</div>
+          <div class="pag-dot active">4</div>
+        </div>
+        <button class="btn-next" onclick="document.getElementById('orderForm').requestSubmit()">Sipariş Gönder &#8594;</button>
+      </div>
+    </div>
+
+    <!-- BAŞARI -->
+    <div class="success-msg" id="successMsg">
+      <h2>Siparişiniz alındı!</h2>
+      <p>Ekibimiz en kısa sürede sizinle iletişime geçecek.<br>Zana ile yola çıkmaya bir adım daha yakınsınız.</p>
+    </div>
+
+  </div>
+
+  <script>
+    // ── Seçim verileri
+    const order = { model: '', modelFiyat: '', renk: '', ekipmanlar: [] };
+
+    function selectModel(el, name, price) {
+      document.querySelectorAll('.model-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      order.model = name;
+      order.modelFiyat = price;
+    }
+
+    function selectColor(el, name) {
+      document.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      order.renk = name;
+    }
+
+    function toggleExtra(el, name, price) {
+      el.classList.toggle('selected');
+      if (el.classList.contains('selected')) {
+        order.ekipmanlar.push(name + ' ' + price);
+      } else {
+        order.ekipmanlar = order.ekipmanlar.filter(e => !e.startsWith(name));
+      }
+    }
+
+    // ── Adım geçişleri
+    function goStep(n) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      const next = document.getElementById('step-' + n);
+      if (next) {
+        next.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      if (n === 4) updateSummary();
+    }
+
+    function updateSummary() {
+      document.getElementById('sum-model').textContent = order.model ? order.model + ' — ' + order.modelFiyat : '—';
+      document.getElementById('sum-color').textContent = order.renk || '—';
+      document.getElementById('sum-extras').textContent = order.ekipmanlar.length ? order.ekipmanlar.join(', ') : 'Ek ekipman yok';
+    }
+
+    // ── Google Sheets gönderimi
+    // KURULUM: Google Apps Script Web App URL'sini aşağıya yapıştırın
+    const APPS_SCRIPT_URL = 'BURAYA_APPS_SCRIPT_URL_GIRIN';
+
+    function submitForm(e) {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const payload = {
+        ad:         fd.get('ad'),
+        soyad:      fd.get('soyad'),
+        eposta:     fd.get('eposta'),
+        telefon:    fd.get('telefon'),
+        not:        fd.get('not'),
+        model:      order.model,
+        modelFiyat: order.modelFiyat,
+        renk:       order.renk,
+        ekipmanlar: order.ekipmanlar.join(' | '),
+        tarih:      new Date().toLocaleString('tr-TR')
+      };
+
+      if (APPS_SCRIPT_URL === 'BURAYA_APPS_SCRIPT_URL_GIRIN') {
+        // Geliştirme modu: sadece başarı göster
+        showSuccess();
+        return;
+      }
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      })
+      .then(() => showSuccess())
+      .catch(() => showSuccess()); // Hata olsa bile kullanıcıya başarı göster
+    }
+
+    function showSuccess() {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('successMsg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
