@@ -300,5 +300,61 @@
     </div>
   </section>
 
+
+  <!-- MANIFESTO SECTION -->
+  <section class="manifesto">
+    <div class="manifesto-inner">
+      <p class="m-headline">Çoğu karavan herkes için üretilir</p>
+      <p class="m-fade m-fade-1">Hantal karavanlar.&emsp;&emsp;Zayıf yapılar.</p>
+      <p class="m-fade m-fade-2">Düşük kaliteli malzemeler.</p>
+      <p class="m-accent">Fakat sıradanı kabul etmeyenler de var!</p>
+    </div>
+  </section>
+
+  <style>
+    .manifesto {
+      background: #edeae4;
+      padding: 120px 48px 140px;
+    }
+
+    .manifesto-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .manifesto-inner p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    .m-headline {
+      color: #1a1612;
+    }
+
+    .m-fade {
+      color: #b8b0a6;
+    }
+
+    .m-fade-2 {
+      color: #cec8c0;
+    }
+
+    .m-accent {
+      color: #3d5c3a;
+    }
+
+    @media (max-width: 768px) {
+      .manifesto {
+        padding: 80px 24px 100px;
+      }
+    }
+  </style>
+
 </body>
 </html>
