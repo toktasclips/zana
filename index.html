@@ -360,6 +360,253 @@
     </div>
   </section>
 
+  <!-- REVIEWS SECTION -->
+  <section class="reviews">
+    <h2 class="reviews-title">Müşterilerimiz Ne Diyor?</h2>
+
+    <div class="reviews-wrapper">
+      <div class="reviews-track" id="reviewsTrack">
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:#e8a87c;">A</div>
+            <div class="reviewer-info">
+              <span class="reviewer-name">Ahmet Kaya <span class="verified">&#10003;</span></span>
+              <span class="reviewer-meta">3 gün önce &middot; Google'da</span>
+            </div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">Karavanı ve onu yapan muhteşem ekibi çok seviyorum! Tüm süreç boyunca bizimle ilgilendiler ve her detayı özenle...</p>
+          <span class="review-more">Devamını oku</span>
+          <div class="review-photo" style="background-image: url('https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=400&q=70');"></div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:#7cb8e8;">E</div>
+            <div class="reviewer-info">
+              <span class="reviewer-name">Elif Şahin <span class="verified">&#10003;</span></span>
+              <span class="reviewer-meta">1 hafta önce &middot; Google'da</span>
+            </div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">Zana karavanımızı kesinlikle seviyoruz. Harika hizmet, tüm süreçte bizi bilgilendirdiler. Kalite gerçekten...</p>
+          <span class="review-more">Devamını oku</span>
+          <div class="review-photo" style="background-image: url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=400&q=70');"></div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:#87c4a0;">M</div>
+            <div class="reviewer-info">
+              <span class="reviewer-name">Mehmet Demir <span class="verified">&#10003;</span></span>
+              <span class="reviewer-meta">2 hafta önce &middot; Google'da</span>
+            </div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">Zana ile en olumlu deneyimi yaşadım. Ekip son derece profesyonel ve özenli. Her aşamada yanımızdaydılar...</p>
+          <span class="review-more">Devamını oku</span>
+          <div class="review-photo" style="background-image: url('https://images.unsplash.com/photo-1537905569824-f89f14cceb68?w=400&q=70');"></div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:#c4a0c8;">S</div>
+            <div class="reviewer-info">
+              <span class="reviewer-name">Selin Yıldız <span class="verified">&#10003;</span></span>
+              <span class="reviewer-meta">1 ay önce &middot; Google'da</span>
+            </div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">Çok profesyonel bir firma. Video görüşmesi büyük fark yarattı, her şeyi tek tek anlattılar. Harika bir deneyimdi...</p>
+          <span class="review-more">Devamını oku</span>
+          <div class="review-photo" style="background-image: url('https://images.unsplash.com/photo-1510672981848-a1c4f1cb5ccf?w=400&q=70');"></div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:#e8d87c;">K</div>
+            <div class="reviewer-info">
+              <span class="reviewer-name">Kemal Arslan <span class="verified">&#10003;</span></span>
+              <span class="reviewer-meta">1 ay önce &middot; Google'da</span>
+            </div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">Yıllardır karavan arıyordum. Zana tam aradığım buydu — hem hafif hem sağlam hem de gerçekten konforlu...</p>
+          <span class="review-more">Devamını oku</span>
+          <div class="review-photo" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=70');"></div>
+        </div>
+
+      </div>
+
+      <button class="reviews-arrow reviews-arrow--prev" onclick="slideReviews(-1)" aria-label="Önceki">&#8249;</button>
+      <button class="reviews-arrow reviews-arrow--next" onclick="slideReviews(1)" aria-label="Sonraki">&#8250;</button>
+    </div>
+  </section>
+
+  <style>
+    .reviews {
+      background: #fff;
+      padding: 100px 72px;
+    }
+
+    .reviews-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      color: #1a1612;
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .reviews-wrapper {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .reviews-track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.4s ease;
+    }
+
+    .review-card {
+      min-width: calc(25% - 15px);
+      background: #fff;
+      border: 1px solid #e8e4df;
+      border-radius: 4px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .review-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .reviewer-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .reviewer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .reviewer-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #1a1612;
+    }
+
+    .verified {
+      color: #4285f4;
+      font-size: 0.7rem;
+    }
+
+    .reviewer-meta {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      color: #999;
+    }
+
+    .review-stars {
+      color: #f4b400;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .review-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: #444;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .review-more {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: #1a73e8;
+      cursor: pointer;
+    }
+
+    .review-photo {
+      width: 100%;
+      height: 130px;
+      border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+      margin-top: 4px;
+    }
+
+    .reviews-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-size: 1.2rem;
+      color: #555;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+      transition: box-shadow 0.2s;
+      z-index: 5;
+    }
+
+    .reviews-arrow:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.18); }
+    .reviews-arrow--prev { left: -18px; }
+    .reviews-arrow--next { right: -18px; }
+
+    @media (max-width: 900px) {
+      .reviews { padding: 72px 32px; }
+      .review-card { min-width: calc(50% - 10px); }
+    }
+
+    @media (max-width: 560px) {
+      .review-card { min-width: 100%; }
+    }
+  </style>
+
+  <script>
+    let reviewPos = 0;
+    const visibleCards = () => window.innerWidth <= 560 ? 1 : window.innerWidth <= 900 ? 2 : 4;
+    function slideReviews(dir) {
+      const track = document.getElementById('reviewsTrack');
+      const total = track.children.length;
+      const visible = visibleCards();
+      reviewPos = Math.max(0, Math.min(reviewPos + dir, total - visible));
+      const cardWidth = track.children[0].offsetWidth + 20;
+      track.style.transform = `translateX(-${reviewPos * cardWidth}px)`;
+    }
+  </script>
+
   <!-- ENGINEERING SECTION -->
   <section class="engineering">
     <div class="eng-header">
