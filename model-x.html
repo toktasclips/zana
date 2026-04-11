@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X Modeli — Zana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      background: #1a1612;
+      color: #fff;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      background: rgba(20, 15, 12, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .nav-logo .logo-icon {
+      width: 40px; height: 40px;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .nav-logo .logo-icon svg {
+      width: 20px; height: 20px;
+      fill: rgba(255,255,255,0.85);
+    }
+
+    .nav-logo span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+    .btn-nav {
+      border: 1px solid rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.85);
+      background: transparent;
+      padding: 9px 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-nav:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── PRODUCT HERO ── */
+    .product-hero {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 88px;
+    }
+
+    .product-image {
+      flex: 0 0 58%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* Placeholder gradient when no real image */
+    .product-image-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: calc(100vh - 88px);
+      background:
+        linear-gradient(135deg, #2a2520 0%, #1a1612 50%, #0e0b09 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image-placeholder span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .product-content {
+      flex: 0 0 42%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 64px 80px 56px;
+      background: #1a1612;
+      overflow-y: auto;
+    }
+
+    .product-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      margin-bottom: 16px;
+    }
+
+    .product-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    .product-tagline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .product-body {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+
+    .product-body p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.62);
+      line-height: 1.8;
+    }
+
+    .product-body p.highlight {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.5;
+    }
+
+    .btn-build {
+      display: inline-block;
+      background: #3d5c3a;
+      color: #fff;
+      border: 1px solid #3d5c3a;
+      padding: 14px 36px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.25s;
+      align-self: flex-start;
+    }
+
+    .btn-build:hover { background: #4e7349; border-color: #4e7349; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .product-hero { flex-direction: column; }
+      .product-image { flex: 0 0 50vh; }
+      .product-image-placeholder { min-height: 50vh; }
+      .product-content { padding: 48px 32px; }
+      nav { padding: 18px 24px; }
+      .nav-links, .btn-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2 L22 20 H2 Z M12 2 L2 20 M12 2 L22 20 M8 20 L12 11 L16 20"/>
+        </svg>
+      </div>
+      <span>Zana</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="model-x.html" class="active">X Modeli</a></li>
+      <li><a href="#">Hakkımızda</a></li>
+      <li><a href="#">Galeri</a></li>
+      <li><a href="#">SSS</a></li>
+      <li><a href="#">İletişim</a></li>
+    </ul>
+
+    <a href="#" class="btn-nav">Sipariş Oluştur</a>
+  </nav>
+
+  <!-- PRODUCT HERO -->
+  <div class="product-hero">
+
+    <!-- Sol: Ürün fotoğrafı -->
+    <div class="product-image">
+      <div class="product-image-placeholder">
+        <span>Ürün Fotoğrafı</span>
+      </div>
+      <!-- Gerçek fotoğraf eklemek için yukarıdaki div'i kaldırıp aşağıdaki img'yi kullanın:
+      <img src="resim.jpg" alt="X Modeli Karavan" />
+      -->
+    </div>
+
+    <!-- Sağ: İçerik -->
+    <div class="product-content">
+      <p class="product-label">Zana Koleksiyonu</p>
+      <h1 class="product-title">X Modeli</h1>
+      <p class="product-tagline">Hafta sonlarınızı yeniden tanımlayan yol arkadaşı</p>
+
+      <div class="product-body">
+        <p class="highlight">X modeli, hafta sonlarınızı yeniden tanımlayan, size özel anılar biriktirmeniz için tasarlanmış bir yol arkadaşıdır.</p>
+        <p>Yeni bir yaşam hissini yola taşır. Bu yalnızca bir karavan değil; macera, sakinlik, eğlence ve heyecanın bir yansımasıdır.</p>
+        <p>Her kıvrım, her birleşim, her detay bilinçli olarak tasarlandı. Tam yalıtımlı kabin, dış etkenleri dışarıda tutar; böylece dört mevsim konforla özgürce yol alırsınız.</p>
+        <p>Dayanıklı alüminyum kaplama, özel yüzey detayları ve farklı renk seçenekleriyle bu karavan sadece bir araç değil, tarzınızın ve hikayenizin bir parçasıdır.</p>
+        <p>Yaklaşık x kg'lık hafif yapısıyla her araçla kolayca çekilir, varlığını bile hissettirmez.</p>
+      </div>
+
+      <a href="#" class="btn-build">Sipariş Oluştur</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
