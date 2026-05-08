@@ -41,11 +41,22 @@
     body {
       background-color: var(--bg-body);
       min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ════════════════════════════════
+       MENU PAGE
+    ════════════════════════════════ */
+    #page-menu {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 48px 20px;
-      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    #page-tools {
+      display: none;
     }
 
     /* ─── Main Container ─── */
@@ -56,7 +67,6 @@
       border-radius: var(--radius-card);
       box-shadow: var(--shadow-card);
       overflow: hidden;
-      /* Premium top highlight */
       border-top: 2px solid var(--color-accent);
       position: relative;
     }
@@ -117,14 +127,11 @@
     }
 
     /* ─── Offers Section ─── */
-    .offers-section {
-      padding: 0;
-    }
+    .offers-section { padding: 0; }
 
     .offers-label {
       text-align: center;
       padding: 28px 0 0;
-      font-family: 'Inter', sans-serif;
       font-size: 0.65rem;
       font-weight: 600;
       letter-spacing: 0.2em;
@@ -147,32 +154,22 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 0;
       cursor: default;
       transition: var(--transition);
-      position: relative;
       border-bottom: 1px solid var(--color-border);
     }
 
-    .offer-cell:nth-child(odd) {
-      border-right: 1px solid var(--color-border);
-    }
-
-    .offer-cell:hover {
-      background: #ffffff;
-    }
+    .offer-cell:nth-child(odd) { border-right: 1px solid var(--color-border); }
+    .offer-cell:hover { background: #ffffff; }
 
     .offer-cell:hover .offer-icon-wrap {
       transform: translateY(-3px);
       box-shadow: 0 8px 28px rgba(0,0,0,0.10);
     }
 
-    .offer-cell:hover .cta-link {
-      color: var(--color-accent);
-      gap: 6px;
-    }
+    .offer-cell.is-clickable { cursor: pointer; }
 
-    /* ─── Icon / Image Placeholder ─── */
+    /* ─── Icon Wrap ─── */
     .offer-icon-wrap {
       width: 80px;
       height: 80px;
@@ -188,13 +185,8 @@
       flex-shrink: 0;
     }
 
-    .offer-icon-wrap svg {
-      width: 32px;
-      height: 32px;
-      opacity: 0.75;
-    }
+    .offer-icon-wrap svg { width: 32px; height: 32px; opacity: 0.75; }
 
-    /* ─── Offer Content ─── */
     .offer-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.25rem;
@@ -215,12 +207,10 @@
       margin-bottom: 20px;
     }
 
-    /* ─── CTA ─── */
     .cta-link {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-family: 'Inter', sans-serif;
       font-size: 0.72rem;
       font-weight: 500;
       letter-spacing: 0.06em;
@@ -229,20 +219,16 @@
       color: var(--color-accent);
       transition: var(--transition);
       margin-top: auto;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
 
-    .cta-link::after {
-      content: '→';
-      font-size: 0.8rem;
-      transition: var(--transition);
-    }
-
-    .cta-link:hover::after {
-      transform: translateX(3px);
-    }
+    .cta-link::after { content: '→'; font-size: 0.8rem; transition: var(--transition); }
+    .cta-link:hover::after { transform: translateX(3px); }
 
     .cta-muted {
-      font-family: 'Inter', sans-serif;
       font-size: 0.72rem;
       font-weight: 400;
       letter-spacing: 0.06em;
@@ -251,7 +237,6 @@
       margin-top: auto;
     }
 
-    /* ─── Footer ─── */
     .menu-footer {
       background: var(--bg-footer);
       padding: 22px 48px;
@@ -267,201 +252,987 @@
       letter-spacing: 0.01em;
     }
 
-    .menu-footer p em {
-      font-style: italic;
-      color: var(--color-accent-light);
+    .menu-footer p em { font-style: italic; color: var(--color-accent-light); }
+
+
+    /* ════════════════════════════════
+       TOOLS PAGE
+    ════════════════════════════════ */
+
+    /* ─── Navbar ─── */
+    .tp-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 249, 247, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    /* ─── Responsive ─── */
+    .tp-nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--color-text-primary);
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tp-nav-brand em { font-style: italic; color: var(--color-accent); }
+
+    .tp-nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      transition: var(--transition);
+      padding: 6px 0;
+    }
+
+    .tp-nav-back:hover { color: var(--color-text-primary); }
+
+    .tp-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tp-login-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--color-text-primary);
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .tp-login-btn:hover {
+      border-color: var(--color-border-hover);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    /* ─── Page body wrapper ─── */
+    .tp-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 64px 24px 0;
+    }
+
+    /* ─── Hero ─── */
+    .tp-hero {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    .tp-label {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      background: rgba(155, 106, 60, 0.08);
+      border: 1px solid rgba(155, 106, 60, 0.18);
+      border-radius: 100px;
+      padding: 5px 14px;
+      margin-bottom: 24px;
+    }
+
+    .tp-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 400;
+      color: var(--color-text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      max-width: 680px;
+      margin: 0 auto 20px;
+    }
+
+    .tp-hero h1 em {
+      font-style: italic;
+      color: var(--color-accent);
+    }
+
+    .tp-hero-note {
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    /* ─── Video ─── */
+    .tp-video-wrap {
+      margin-bottom: 64px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #1c1a18;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 20px 60px rgba(0,0,0,0.14);
+      border: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      aspect-ratio: 16 / 9;
+      cursor: pointer;
+    }
+
+    /* Mock dashboard inside video */
+    .tp-video-dashboard {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #1e1b17 0%, #16130f 100%);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 12px;
+    }
+
+    .tvd-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.5;
+    }
+
+    .tvd-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .tvd-dot:nth-child(1) { background: #ff5f57; }
+    .tvd-dot:nth-child(2) { background: #febc2e; }
+    .tvd-dot:nth-child(3) { background: #28c840; }
+
+    .tvd-urlbar {
+      flex: 1;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      max-width: 260px;
+      margin: 0 auto;
+    }
+
+    .tvd-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+    }
+
+    .tvd-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tvd-nav-item {
+      height: 7px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .tvd-nav-item.active {
+      background: rgba(155, 106, 60, 0.45);
+      width: 70%;
+    }
+
+    .tvd-main {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tvd-card {
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .tvd-line {
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .tvd-line.short { width: 45%; }
+    .tvd-line.accent { background: rgba(155, 106, 60, 0.4); width: 60%; }
+
+    /* Play button overlay */
+    .tp-video-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .tp-play-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(250, 249, 247, 0.12);
+      border: 1.5px solid rgba(250, 249, 247, 0.25);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .tp-video-wrap:hover .tp-play-btn {
+      background: rgba(250, 249, 247, 0.2);
+      transform: scale(1.06);
+    }
+
+    .tp-play-btn svg { margin-left: 3px; }
+
+    /* Progress bar */
+    .tp-video-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px 14px;
+      background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tp-progress-track {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.2);
+      position: relative;
+    }
+
+    .tp-progress-fill {
+      width: 28%;
+      height: 100%;
+      border-radius: 2px;
+      background: var(--color-accent-light);
+    }
+
+    .tp-duration {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* ─── Join Section ─── */
+    .tp-join-section {
+      margin-bottom: 64px;
+    }
+
+    .tp-section-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .tp-section-divider::before,
+    .tp-section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    .tp-section-divider span {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+
+    .tp-join-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* Toggle */
+    .tp-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 44px;
+    }
+
+    .tp-toggle-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border: 1px solid var(--color-border);
+      background: #ffffff;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .tp-toggle-btn:first-child { border-radius: 10px 0 0 10px; border-right: none; }
+    .tp-toggle-btn:last-child  { border-radius: 0 10px 10px 0; }
+
+    .tp-toggle-btn.active {
+      background: var(--color-text-primary);
+      border-color: var(--color-text-primary);
+      color: #faf9f7;
+    }
+
+    /* ─── Pricing Cards ─── */
+    .tp-pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .tp-price-card {
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      padding: 36px 32px;
+      position: relative;
+      transition: var(--transition);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    .tp-price-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+
+    /* Annual card highlight */
+    .tp-price-card.featured {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 1px rgba(155,106,60,0.15), 0 4px 24px rgba(155,106,60,0.10);
+    }
+
+    .tp-price-card.featured:hover {
+      box-shadow: 0 0 0 1px rgba(155,106,60,0.25), 0 8px 36px rgba(155,106,60,0.14);
+      transform: translateY(-2px);
+    }
+
+    .tp-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      background: rgba(155, 106, 60, 0.08);
+      border: 1px solid rgba(155, 106, 60, 0.2);
+      border-radius: 100px;
+      padding: 4px 12px;
+      margin-bottom: 20px;
+    }
+
+    .tp-card-badge svg { width: 10px; height: 10px; }
+
+    .tp-card-option {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 10px;
+    }
+
+    .tp-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: var(--color-text-primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .tp-card-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .tp-price-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .tp-price-currency {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      align-self: flex-start;
+      margin-top: 6px;
+    }
+
+    .tp-price-sub {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .tp-divider-line {
+      height: 1px;
+      background: var(--color-border);
+      margin-bottom: 24px;
+    }
+
+    .tp-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .tp-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    .tp-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(155, 106, 60, 0.1);
+      border: 1px solid rgba(155, 106, 60, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .tp-check svg { width: 8px; height: 8px; }
+
+    .tp-cta-btn {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 1.5px solid var(--color-text-primary);
+      background: var(--color-text-primary);
+      color: var(--bg-card);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 14px;
+    }
+
+    .tp-cta-btn:hover {
+      background: #2e2922;
+      border-color: #2e2922;
+    }
+
+    .tp-price-card.featured .tp-cta-btn {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .tp-price-card.featured .tp-cta-btn:hover {
+      background: #7d5230;
+      border-color: #7d5230;
+    }
+
+    .tp-card-footnote {
+      font-size: 0.7rem;
+      color: var(--color-text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ─── Tools Footer ─── */
+    .tp-footer {
+      background: var(--bg-footer);
+      margin-top: 80px;
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tp-footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: #8a7d72;
+    }
+
+    .tp-footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .tp-footer-links a {
+      font-size: 0.72rem;
+      color: #8a7d72;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: var(--transition);
+    }
+
+    .tp-footer-links a:hover { color: var(--color-accent-light); }
+
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
     @media (max-width: 640px) {
-      body {
-        padding: 0;
-      }
+      /* Menu */
+      #page-menu { padding: 0; }
 
-      .menu-card {
-        border-radius: 0;
-        border-top-width: 3px;
-      }
+      .menu-card { border-radius: 0; border-top-width: 3px; }
+      .menu-header { padding: 48px 28px 36px; }
+      .offers-grid { grid-template-columns: 1fr; }
+      .offer-cell { border-right: none !important; padding: 36px 28px; }
+      .menu-footer { padding: 22px 28px; }
 
-      .menu-header {
-        padding: 48px 28px 36px;
-      }
-
-      .offers-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .offer-cell {
-        border-right: none !important;
-        padding: 36px 28px;
-      }
-
-      .menu-footer {
-        padding: 22px 28px;
-      }
+      /* Tools */
+      .tp-nav { padding: 0 20px; }
+      .tp-body { padding: 40px 16px 0; }
+      .tp-pricing-grid { grid-template-columns: 1fr; }
+      .tp-footer { flex-direction: column; gap: 12px; padding: 24px 20px; text-align: center; }
+      .tp-video-dashboard .tvd-content { grid-template-columns: 1fr; }
+      .tvd-sidebar { display: none; }
     }
 
     @media (max-width: 480px) {
-      .menu-header {
-        padding: 40px 24px 32px;
-      }
-
-      .offer-cell {
-        padding: 32px 24px;
-      }
+      .menu-header { padding: 40px 24px 32px; }
+      .offer-cell { padding: 32px 24px; }
+      .tp-price-card { padding: 28px 22px; }
     }
   </style>
 </head>
 <body>
 
-  <main class="menu-card">
+  <!-- ══════════════════════════════
+       PAGE 1 — MENU CARD
+  ══════════════════════════════ -->
+  <div id="page-menu">
+    <main class="menu-card">
 
-    <!-- ── Header ── -->
-    <header class="menu-header">
-      <h1>The <em>Digital</em> Menu Card</h1>
-      <p class="subtitle">A $500k/year profit solo consulting business</p>
-      <div class="header-divider">
-        <span></span>
-        <i></i>
-        <i></i>
-        <i></i>
-        <span></span>
+      <header class="menu-header">
+        <h1>The <em>Digital</em> Menu Card</h1>
+        <p class="subtitle">A $500k/year profit solo consulting business</p>
+        <div class="header-divider">
+          <span></span><i></i><i></i><i></i><span></span>
+        </div>
+      </header>
+
+      <section class="offers-section">
+        <p class="offers-label">Offers</p>
+        <div class="offers-grid">
+
+          <!-- 1. Tools — clickable -->
+          <div class="offer-cell is-clickable" id="tools-cell" onclick="showTools()">
+            <div class="offer-icon-wrap">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="4" width="12" height="16" rx="3" fill="#c49a6c" opacity="0.35"/>
+                <rect x="10" y="8" width="12" height="16" rx="3" fill="#9b6a3c" opacity="0.55"/>
+                <circle cx="22" cy="22" r="5" fill="#9b6a3c" opacity="0.2"/>
+                <circle cx="22" cy="22" r="2.5" fill="#9b6a3c" opacity="0.6"/>
+              </svg>
+            </div>
+            <h2 class="offer-title">Tools</h2>
+            <p class="offer-desc">Digital Coffee AI</p>
+            <button class="cta-link">Learn more</button>
+          </div>
+
+          <!-- 2. Fred's Inner Circle -->
+          <div class="offer-cell">
+            <div class="offer-icon-wrap">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="10" stroke="#9b6a3c" stroke-width="1.5" opacity="0.4"/>
+                <circle cx="16" cy="16" r="6" fill="#c49a6c" opacity="0.25"/>
+                <circle cx="16" cy="16" r="3" fill="#9b6a3c" opacity="0.7"/>
+                <path d="M16 6v2M16 24v2M6 16h2M24 16h2" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+              </svg>
+            </div>
+            <h2 class="offer-title">Fred's Inner Circle</h2>
+            <p class="offer-desc">Access to group calls and frameworks</p>
+            <a href="#" class="cta-link">Learn more</a>
+          </div>
+
+          <!-- 3. Mentorship -->
+          <div class="offer-cell">
+            <div class="offer-icon-wrap">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="13" cy="11" r="4" fill="#9b6a3c" opacity="0.5"/>
+                <path d="M5 24c0-4.418 3.582-8 8-8h2" stroke="#9b6a3c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+                <circle cx="22" cy="17" r="3" fill="#c49a6c" opacity="0.55"/>
+                <path d="M17 26c0-2.761 2.239-5 5-5" stroke="#c49a6c" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              </svg>
+            </div>
+            <h2 class="offer-title">Mentorship</h2>
+            <p class="offer-desc">Private 1 to 1 Slack and Zoom calls with Fred</p>
+            <a href="#" class="cta-link">Learn more</a>
+          </div>
+
+          <!-- 4. Monthly Workshop -->
+          <div class="offer-cell">
+            <div class="offer-icon-wrap">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="8" width="20" height="16" rx="3" stroke="#9b6a3c" stroke-width="1.4" opacity="0.4"/>
+                <path d="M11 8V6M21 8V6" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+                <path d="M6 13h20" stroke="#9b6a3c" stroke-width="1.2" opacity="0.3"/>
+                <rect x="10" y="17" width="4" height="4" rx="1" fill="#9b6a3c" opacity="0.55"/>
+                <rect x="18" y="17" width="4" height="4" rx="1" fill="#c49a6c" opacity="0.35"/>
+              </svg>
+            </div>
+            <h2 class="offer-title">Monthly Workshop</h2>
+            <p class="offer-desc">Build a new revenue stream in 2 hours</p>
+            <a href="#" class="cta-link">Learn more</a>
+          </div>
+
+          <!-- 5. A Day with Fred -->
+          <div class="offer-cell">
+            <div class="offer-icon-wrap">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="12" r="5" fill="#9b6a3c" opacity="0.4"/>
+                <path d="M8 26c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
+                <path d="M12 16l4 10 4-10" stroke="#c49a6c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+              </svg>
+            </div>
+            <h2 class="offer-title">A Day with Fred</h2>
+            <p class="offer-desc">A full day breaking down your business</p>
+            <span class="cta-muted">Coming soon</span>
+          </div>
+
+          <!-- 6. DFY -->
+          <div class="offer-cell">
+            <div class="offer-icon-wrap">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="7" y="7" width="18" height="18" rx="4" stroke="#9b6a3c" stroke-width="1.4" opacity="0.35"/>
+                <path d="M11 16h10M16 11v10" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+                <circle cx="16" cy="16" r="3" fill="#c49a6c" opacity="0.25"/>
+              </svg>
+            </div>
+            <h2 class="offer-title">DFY</h2>
+            <p class="offer-desc">Agency service</p>
+            <span class="cta-muted">No available spots</span>
+          </div>
+
+          <!-- 7. Mastermind -->
+          <div class="offer-cell">
+            <div class="offer-icon-wrap">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="16,5 20,12 28,13 22,19 24,27 16,23 8,27 10,19 4,13 12,12" fill="#c49a6c" opacity="0.25" stroke="#9b6a3c" stroke-width="1.3" stroke-linejoin="round"/>
+                <circle cx="16" cy="16" r="4" fill="#9b6a3c" opacity="0.4"/>
+              </svg>
+            </div>
+            <h2 class="offer-title">Mastermind</h2>
+            <p class="offer-desc">In person event</p>
+            <span class="cta-muted">Coming soon</span>
+          </div>
+
+          <!-- 8. Your Own Platform -->
+          <div class="offer-cell">
+            <div class="offer-icon-wrap">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="6" width="24" height="16" rx="3" stroke="#9b6a3c" stroke-width="1.4" opacity="0.4"/>
+                <path d="M10 26h12" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
+                <path d="M16 22v4" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
+                <rect x="9" y="11" width="6" height="4" rx="1.5" fill="#9b6a3c" opacity="0.45"/>
+                <rect x="17" y="11" width="6" height="4" rx="1.5" fill="#c49a6c" opacity="0.35"/>
+              </svg>
+            </div>
+            <h2 class="offer-title">Your Own Platform</h2>
+            <p class="offer-desc">I'll build your very own AI platform</p>
+            <span class="cta-muted">Coming soon</span>
+          </div>
+
+        </div>
+      </section>
+
+      <footer class="menu-footer">
+        <p>The <em>Digital</em> Coffee Shop</p>
+      </footer>
+    </main>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       PAGE 2 — TOOLS DETAIL
+  ══════════════════════════════ -->
+  <div id="page-tools">
+
+    <!-- Navbar -->
+    <nav class="tp-nav">
+      <div style="display:flex;align-items:center;gap:20px;">
+        <button class="tp-nav-back" onclick="showMenu()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back
+        </button>
+        <div class="tp-nav-brand">The <em>&nbsp;Digital&nbsp;</em> Coffee Shop</div>
       </div>
-    </header>
-
-    <!-- ── Offers ── -->
-    <section class="offers-section">
-      <p class="offers-label">Offers</p>
-
-      <div class="offers-grid">
-
-        <!-- 1. Tools -->
-        <div class="offer-cell">
-          <div class="offer-icon-wrap">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="4" width="12" height="16" rx="3" fill="#c49a6c" opacity="0.35"/>
-              <rect x="10" y="8" width="12" height="16" rx="3" fill="#9b6a3c" opacity="0.55"/>
-              <circle cx="22" cy="22" r="5" fill="#9b6a3c" opacity="0.2"/>
-              <circle cx="22" cy="22" r="2.5" fill="#9b6a3c" opacity="0.6"/>
-            </svg>
-          </div>
-          <h2 class="offer-title">Tools</h2>
-          <p class="offer-desc">Digital Coffee AI</p>
-          <a href="#" class="cta-link">Learn more</a>
-        </div>
-
-        <!-- 2. Fred's Inner Circle -->
-        <div class="offer-cell">
-          <div class="offer-icon-wrap">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="16" cy="16" r="10" stroke="#9b6a3c" stroke-width="1.5" opacity="0.4"/>
-              <circle cx="16" cy="16" r="6" fill="#c49a6c" opacity="0.25"/>
-              <circle cx="16" cy="16" r="3" fill="#9b6a3c" opacity="0.7"/>
-              <path d="M16 6v2M16 24v2M6 16h2M24 16h2" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
-            </svg>
-          </div>
-          <h2 class="offer-title">Fred's Inner Circle</h2>
-          <p class="offer-desc">Access to group calls and frameworks</p>
-          <a href="#" class="cta-link">Learn more</a>
-        </div>
-
-        <!-- 3. Mentorship -->
-        <div class="offer-cell">
-          <div class="offer-icon-wrap">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="13" cy="11" r="4" fill="#9b6a3c" opacity="0.5"/>
-              <path d="M5 24c0-4.418 3.582-8 8-8h2" stroke="#9b6a3c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-              <circle cx="22" cy="17" r="3" fill="#c49a6c" opacity="0.55"/>
-              <path d="M17 26c0-2.761 2.239-5 5-5" stroke="#c49a6c" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-            </svg>
-          </div>
-          <h2 class="offer-title">Mentorship</h2>
-          <p class="offer-desc">Private 1 to 1 Slack and Zoom calls with Fred</p>
-          <a href="#" class="cta-link">Learn more</a>
-        </div>
-
-        <!-- 4. Monthly Workshop -->
-        <div class="offer-cell">
-          <div class="offer-icon-wrap">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="8" width="20" height="16" rx="3" stroke="#9b6a3c" stroke-width="1.4" opacity="0.4"/>
-              <path d="M11 8V6M21 8V6" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
-              <path d="M6 13h20" stroke="#9b6a3c" stroke-width="1.2" opacity="0.3"/>
-              <rect x="10" y="17" width="4" height="4" rx="1" fill="#9b6a3c" opacity="0.55"/>
-              <rect x="18" y="17" width="4" height="4" rx="1" fill="#c49a6c" opacity="0.35"/>
-            </svg>
-          </div>
-          <h2 class="offer-title">Monthly Workshop</h2>
-          <p class="offer-desc">Build a new revenue stream in 2 hours</p>
-          <a href="#" class="cta-link">Learn more</a>
-        </div>
-
-        <!-- 5. A Day with Fred -->
-        <div class="offer-cell">
-          <div class="offer-icon-wrap">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="16" cy="12" r="5" fill="#9b6a3c" opacity="0.4"/>
-              <path d="M8 26c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
-              <path d="M12 16l4 10 4-10" stroke="#c49a6c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
-            </svg>
-          </div>
-          <h2 class="offer-title">A Day with Fred</h2>
-          <p class="offer-desc">A full day breaking down your business</p>
-          <span class="cta-muted">Coming soon</span>
-        </div>
-
-        <!-- 6. DFY -->
-        <div class="offer-cell">
-          <div class="offer-icon-wrap">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="7" y="7" width="18" height="18" rx="4" stroke="#9b6a3c" stroke-width="1.4" opacity="0.35"/>
-              <path d="M11 16h10M16 11v10" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
-              <circle cx="16" cy="16" r="3" fill="#c49a6c" opacity="0.25"/>
-            </svg>
-          </div>
-          <h2 class="offer-title">DFY</h2>
-          <p class="offer-desc">Agency service</p>
-          <span class="cta-muted">No available spots</span>
-        </div>
-
-        <!-- 7. Mastermind -->
-        <div class="offer-cell">
-          <div class="offer-icon-wrap">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="16,5 20,12 28,13 22,19 24,27 16,23 8,27 10,19 4,13 12,12" fill="#c49a6c" opacity="0.25" stroke="#9b6a3c" stroke-width="1.3" stroke-linejoin="round" opacity-stroke="0.5"/>
-              <circle cx="16" cy="16" r="4" fill="#9b6a3c" opacity="0.4"/>
-            </svg>
-          </div>
-          <h2 class="offer-title">Mastermind</h2>
-          <p class="offer-desc">In person event</p>
-          <span class="cta-muted">Coming soon</span>
-        </div>
-
-        <!-- 8. Your Own Platform -->
-        <div class="offer-cell">
-          <div class="offer-icon-wrap">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4" y="6" width="24" height="16" rx="3" stroke="#9b6a3c" stroke-width="1.4" opacity="0.4"/>
-              <path d="M10 26h12" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
-              <path d="M16 22v4" stroke="#9b6a3c" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
-              <rect x="9" y="11" width="6" height="4" rx="1.5" fill="#9b6a3c" opacity="0.45"/>
-              <rect x="17" y="11" width="6" height="4" rx="1.5" fill="#c49a6c" opacity="0.35"/>
-            </svg>
-          </div>
-          <h2 class="offer-title">Your Own Platform</h2>
-          <p class="offer-desc">I'll build your very own AI platform</p>
-          <span class="cta-muted">Coming soon</span>
-        </div>
-
+      <div class="tp-nav-right">
+        <button class="tp-login-btn">Login</button>
       </div>
-    </section>
+    </nav>
 
-    <!-- ── Footer ── -->
-    <footer class="menu-footer">
-      <p>The <em>Digital</em> Coffee Shop</p>
+    <div class="tp-body">
+
+      <!-- Hero -->
+      <div class="tp-hero">
+        <div class="tp-label">digitalcoffee.ai</div>
+        <h1>The exact tools I used to build a <em>$500k/year</em> solo-consulting business</h1>
+        <p class="tp-hero-note">All prices are early-bird offers. VAT/tax is added automatically at checkout where required.</p>
+      </div>
+
+      <!-- Video -->
+      <div class="tp-video-wrap">
+        <div class="tp-video-dashboard">
+          <div class="tvd-topbar">
+            <div class="tvd-dot"></div>
+            <div class="tvd-dot"></div>
+            <div class="tvd-dot"></div>
+            <div class="tvd-urlbar"></div>
+          </div>
+          <div class="tvd-content">
+            <div class="tvd-sidebar">
+              <div class="tvd-nav-item active"></div>
+              <div class="tvd-nav-item"></div>
+              <div class="tvd-nav-item"></div>
+              <div class="tvd-nav-item"></div>
+              <div class="tvd-nav-item"></div>
+            </div>
+            <div class="tvd-main">
+              <div class="tvd-card">
+                <div class="tvd-line accent"></div>
+                <div class="tvd-line"></div>
+                <div class="tvd-line short"></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;">
+                <div class="tvd-card">
+                  <div class="tvd-line"></div>
+                  <div class="tvd-line short"></div>
+                </div>
+                <div class="tvd-card">
+                  <div class="tvd-line accent"></div>
+                  <div class="tvd-line short"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tp-video-play">
+          <div class="tp-play-btn">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M7 4.5l12 6.5-12 6.5V4.5z" fill="rgba(250,249,247,0.9)"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="tp-video-bar">
+          <div class="tp-progress-track">
+            <div class="tp-progress-fill"></div>
+          </div>
+          <span class="tp-duration">4:51</span>
+        </div>
+      </div>
+
+      <!-- Join Section -->
+      <div class="tp-join-section">
+        <div class="tp-section-divider">
+          <span>2 ways to join</span>
+        </div>
+        <p class="tp-join-note">All prices are early-bird offers. VAT/tax is added automatically at checkout where required.</p>
+
+        <div class="tp-toggle">
+          <button class="tp-toggle-btn active" id="toggle-intl" onclick="setToggle('intl')">International (excl. VAT)</button>
+          <button class="tp-toggle-btn" id="toggle-dk" onclick="setToggle('dk')">Denmark (incl. VAT)</button>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="tp-pricing-grid">
+
+          <!-- Monthly -->
+          <div class="tp-price-card">
+            <p class="tp-card-option">Option 1</p>
+            <h2 class="tp-card-title">The Monthly</h2>
+            <div class="tp-card-price">
+              <span class="tp-price-currency">$</span>
+              <span class="tp-price-amount">397</span>
+            </div>
+            <p class="tp-price-sub">per month · cancel anytime<br>USD billing · no VAT</p>
+            <div class="tp-divider-line"></div>
+            <ul class="tp-features">
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                No contract. Cancel anytime.
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Full access to the platform: The Menu Card Maker, The Daily Story, Campaign Coach and Onboarding AI
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                The Classroom filled with all tools, trainings, frameworks and guides
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                A monthly group-call with Fred — what's working now and insights
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Access to all future workshops
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Access to all future AI coaches, modules and trainings
+              </li>
+            </ul>
+            <button class="tp-cta-btn">Claim the Monthly for $397 →</button>
+            <p class="tp-card-footnote">Then $397/month. No contracts. Cancel anytime.</p>
+          </div>
+
+          <!-- Annual -->
+          <div class="tp-price-card featured">
+            <div class="tp-card-badge">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M5 1l1.2 2.6 2.8.4-2 2 .5 2.8L5 7.5 2.5 8.8l.5-2.8-2-2 2.8-.4L5 1z" fill="#9b6a3c"/></svg>
+              Most beans for your buck
+            </div>
+            <p class="tp-card-option">Option 2</p>
+            <h2 class="tp-card-title">The Annual</h2>
+            <div class="tp-card-price">
+              <span class="tp-price-currency">$</span>
+              <span class="tp-price-amount">2,497</span>
+            </div>
+            <p class="tp-price-sub">per year · save $2,267 vs. monthly<br>USD billing · no VAT</p>
+            <div class="tp-divider-line"></div>
+            <ul class="tp-features">
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Save $2,267 vs. monthly
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                1-on-1 call with Fred
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                4 weeks membership in Fred's Inner Circle
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Full access to the platform: The Menu Card Maker, The Daily Story, Campaign Coach and Onboarding AI
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                The Classroom filled with all tools, trainings, frameworks and guides
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                A monthly group-call with Fred — what's working now and insights
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Access to all future workshops
+              </li>
+              <li>
+                <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Access to all future AI coaches, modules and trainings
+              </li>
+            </ul>
+            <button class="tp-cta-btn">Claim the Annual for $2,497 →</button>
+            <p class="tp-card-footnote">Renews annually. No contracts. Cancel anytime.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="tp-footer">
+      <span class="tp-footer-brand">Digital Coffee ApS</span>
+      <div class="tp-footer-links">
+        <a href="#">Privacy Policy</a>
+      </div>
     </footer>
 
-  </main>
+  </div>
+
+
+  <script>
+    function showTools() {
+      document.getElementById('page-menu').style.display = 'none';
+      document.getElementById('page-tools').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.title = 'Tools — Digital Coffee AI';
+    }
+
+    function showMenu() {
+      document.getElementById('page-tools').style.display = 'none';
+      document.getElementById('page-menu').style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.title = 'The Digital Menu Card';
+    }
+
+    function setToggle(type) {
+      document.getElementById('toggle-intl').classList.toggle('active', type === 'intl');
+      document.getElementById('toggle-dk').classList.toggle('active', type === 'dk');
+    }
+  </script>
 
 </body>
 </html>
