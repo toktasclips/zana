@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -45,7 +45,7 @@
     }
 
     /* ════════════════════════════════
-       MENU PAGE
+       MENÜ SAYFASI
     ════════════════════════════════ */
     #page-menu {
       display: flex;
@@ -59,7 +59,6 @@
       display: none;
     }
 
-    /* ─── Main Container ─── */
     .menu-card {
       width: 100%;
       max-width: 880px;
@@ -71,7 +70,6 @@
       position: relative;
     }
 
-    /* ─── Header ─── */
     .menu-header {
       padding: 64px 60px 48px;
       text-align: center;
@@ -126,7 +124,6 @@
       background: var(--color-accent-light);
     }
 
-    /* ─── Offers Section ─── */
     .offers-section { padding: 0; }
 
     .offers-label {
@@ -139,7 +136,6 @@
       text-transform: uppercase;
     }
 
-    /* ─── Grid ─── */
     .offers-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -147,7 +143,6 @@
       margin-top: 28px;
     }
 
-    /* ─── Offer Cell ─── */
     .offer-cell {
       padding: 44px 40px;
       display: flex;
@@ -169,7 +164,6 @@
 
     .offer-cell.is-clickable { cursor: pointer; }
 
-    /* ─── Icon Wrap ─── */
     .offer-icon-wrap {
       width: 80px;
       height: 80px;
@@ -256,10 +250,9 @@
 
 
     /* ════════════════════════════════
-       TOOLS PAGE
+       ARAÇLAR SAYFASI
     ════════════════════════════════ */
 
-    /* ─── Navbar ─── */
     .tp-nav {
       position: sticky;
       top: 0;
@@ -332,14 +325,12 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
-    /* ─── Page body wrapper ─── */
     .tp-body {
       max-width: 860px;
       margin: 0 auto;
       padding: 64px 24px 0;
     }
 
-    /* ─── Hero ─── */
     .tp-hero {
       text-align: center;
       margin-bottom: 52px;
@@ -379,11 +370,10 @@
       font-size: 0.78rem;
       color: var(--color-text-muted);
       line-height: 1.6;
-      max-width: 420px;
+      max-width: 460px;
       margin: 0 auto;
     }
 
-    /* ─── Video ─── */
     .tp-video-wrap {
       margin-bottom: 64px;
       border-radius: 18px;
@@ -396,7 +386,6 @@
       cursor: pointer;
     }
 
-    /* Mock dashboard inside video */
     .tp-video-dashboard {
       position: absolute;
       inset: 0;
@@ -414,12 +403,7 @@
       opacity: 0.5;
     }
 
-    .tvd-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
+    .tvd-dot { width: 8px; height: 8px; border-radius: 50%; }
     .tvd-dot:nth-child(1) { background: #ff5f57; }
     .tvd-dot:nth-child(2) { background: #febc2e; }
     .tvd-dot:nth-child(3) { background: #28c840; }
@@ -440,28 +424,12 @@
       gap: 10px;
     }
 
-    .tvd-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .tvd-sidebar { display: flex; flex-direction: column; gap: 6px; }
 
-    .tvd-nav-item {
-      height: 7px;
-      border-radius: 4px;
-      background: rgba(255,255,255,0.07);
-    }
+    .tvd-nav-item { height: 7px; border-radius: 4px; background: rgba(255,255,255,0.07); }
+    .tvd-nav-item.active { background: rgba(155, 106, 60, 0.45); width: 70%; }
 
-    .tvd-nav-item.active {
-      background: rgba(155, 106, 60, 0.45);
-      width: 70%;
-    }
-
-    .tvd-main {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .tvd-main { display: flex; flex-direction: column; gap: 8px; }
 
     .tvd-card {
       border-radius: 8px;
@@ -474,16 +442,10 @@
       gap: 5px;
     }
 
-    .tvd-line {
-      height: 6px;
-      border-radius: 3px;
-      background: rgba(255,255,255,0.12);
-    }
-
+    .tvd-line { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.12); }
     .tvd-line.short { width: 45%; }
     .tvd-line.accent { background: rgba(155, 106, 60, 0.4); width: 60%; }
 
-    /* Play button overlay */
     .tp-video-play {
       position: absolute;
       inset: 0;
@@ -514,7 +476,6 @@
 
     .tp-play-btn svg { margin-left: 3px; }
 
-    /* Progress bar */
     .tp-video-bar {
       position: absolute;
       bottom: 0;
@@ -550,10 +511,7 @@
       white-space: nowrap;
     }
 
-    /* ─── Join Section ─── */
-    .tp-join-section {
-      margin-bottom: 64px;
-    }
+    .tp-join-section { margin-bottom: 64px; }
 
     .tp-section-divider {
       display: flex;
@@ -587,7 +545,6 @@
       line-height: 1.6;
     }
 
-    /* Toggle */
     .tp-toggle {
       display: flex;
       align-items: center;
@@ -619,7 +576,6 @@
       color: #faf9f7;
     }
 
-    /* ─── Pricing Cards ─── */
     .tp-pricing-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -642,7 +598,6 @@
       transform: translateY(-2px);
     }
 
-    /* Annual card highlight */
     .tp-price-card.featured {
       border-color: var(--color-accent);
       box-shadow: 0 0 0 1px rgba(155,106,60,0.15), 0 4px 24px rgba(155,106,60,0.10);
@@ -776,10 +731,7 @@
       margin-bottom: 14px;
     }
 
-    .tp-cta-btn:hover {
-      background: #2e2922;
-      border-color: #2e2922;
-    }
+    .tp-cta-btn:hover { background: #2e2922; border-color: #2e2922; }
 
     .tp-price-card.featured .tp-cta-btn {
       background: var(--color-accent);
@@ -798,7 +750,6 @@
       line-height: 1.5;
     }
 
-    /* ─── Tools Footer ─── */
     .tp-footer {
       background: var(--bg-footer);
       margin-top: 80px;
@@ -815,10 +766,7 @@
       color: #8a7d72;
     }
 
-    .tp-footer-links {
-      display: flex;
-      gap: 20px;
-    }
+    .tp-footer-links { display: flex; gap: 20px; }
 
     .tp-footer-links a {
       font-size: 0.72rem;
@@ -835,7 +783,6 @@
        RESPONSIVE
     ════════════════════════════════ */
     @media (max-width: 640px) {
-      /* Menu */
       #page-menu { padding: 0; }
 
       .menu-card { border-radius: 0; border-top-width: 3px; }
@@ -844,7 +791,6 @@
       .offer-cell { border-right: none !important; padding: 36px 28px; }
       .menu-footer { padding: 22px 28px; }
 
-      /* Tools */
       .tp-nav { padding: 0 20px; }
       .tp-body { padding: 40px 16px 0; }
       .tp-pricing-grid { grid-template-columns: 1fr; }
@@ -863,7 +809,7 @@
 <body>
 
   <!-- ══════════════════════════════
-       PAGE 1 — MENU CARD
+       SAYFA 1 — MENÜ KARTI
   ══════════════════════════════ -->
   <div id="page-menu">
     <main class="menu-card">
@@ -877,10 +823,10 @@
       </header>
 
       <section class="offers-section">
-        <p class="offers-label">Offers</p>
+        <p class="offers-label">Teklifler</p>
         <div class="offers-grid">
 
-          <!-- 1. Tools — clickable -->
+          <!-- 1. Araçlar -->
           <div class="offer-cell is-clickable" id="tools-cell" onclick="showTools()">
             <div class="offer-icon-wrap">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -890,12 +836,12 @@
                 <circle cx="22" cy="22" r="2.5" fill="#9b6a3c" opacity="0.6"/>
               </svg>
             </div>
-            <h2 class="offer-title">Tools</h2>
-            <p class="offer-desc">Digital Coffee AI</p>
-            <button class="cta-link">Learn more</button>
+            <h2 class="offer-title">Araçlar</h2>
+            <p class="offer-desc">Dijital Barista YZ</p>
+            <button class="cta-link">Daha fazla</button>
           </div>
 
-          <!-- 2. Fred's Inner Circle -->
+          <!-- 2. Mehmet'in İç Çevresi -->
           <div class="offer-cell">
             <div class="offer-icon-wrap">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -905,12 +851,12 @@
                 <path d="M16 6v2M16 24v2M6 16h2M24 16h2" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
               </svg>
             </div>
-            <h2 class="offer-title">Fred's Inner Circle</h2>
-            <p class="offer-desc">Access to group calls and frameworks</p>
-            <a href="#" class="cta-link">Learn more</a>
+            <h2 class="offer-title">Mehmet'in İç Çevresi</h2>
+            <p class="offer-desc">Grup görüşmelerine ve çerçevelere erişim</p>
+            <a href="#" class="cta-link">Daha fazla</a>
           </div>
 
-          <!-- 3. Mentorship -->
+          <!-- 3. Mentorluk -->
           <div class="offer-cell">
             <div class="offer-icon-wrap">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -920,12 +866,12 @@
                 <path d="M17 26c0-2.761 2.239-5 5-5" stroke="#c49a6c" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
               </svg>
             </div>
-            <h2 class="offer-title">Mentorship</h2>
-            <p class="offer-desc">Private 1 to 1 Slack and Zoom calls with Fred</p>
-            <a href="https://public.3.basecamp.com/p/Qg9bv9Qjm291ZBuZ3NuQqnPb" target="_blank" rel="noopener" class="cta-link">Learn more</a>
+            <h2 class="offer-title">Mentorluk</h2>
+            <p class="offer-desc">Mehmet ile özel 1'e 1 Slack ve Zoom görüşmeleri</p>
+            <a href="https://public.3.basecamp.com/p/Qg9bv9Qjm291ZBuZ3NuQqnPb" target="_blank" rel="noopener" class="cta-link">Daha fazla</a>
           </div>
 
-          <!-- 4. Monthly Workshop -->
+          <!-- 4. Aylık Atölye -->
           <div class="offer-cell">
             <div class="offer-icon-wrap">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -936,12 +882,12 @@
                 <rect x="18" y="17" width="4" height="4" rx="1" fill="#c49a6c" opacity="0.35"/>
               </svg>
             </div>
-            <h2 class="offer-title">Monthly Workshop</h2>
-            <p class="offer-desc">Build a new revenue stream in 2 hours</p>
-            <a href="#" class="cta-link">Learn more</a>
+            <h2 class="offer-title">Aylık Atölye</h2>
+            <p class="offer-desc">2 saatte yeni bir gelir akışı oluştur</p>
+            <a href="#" class="cta-link">Daha fazla</a>
           </div>
 
-          <!-- 5. A Day with Fred -->
+          <!-- 5. Mehmet ile Bir Gün -->
           <div class="offer-cell">
             <div class="offer-icon-wrap">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -950,12 +896,12 @@
                 <path d="M12 16l4 10 4-10" stroke="#c49a6c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
               </svg>
             </div>
-            <h2 class="offer-title">A Day with Fred</h2>
-            <p class="offer-desc">A full day breaking down your business</p>
-            <span class="cta-muted">Coming soon</span>
+            <h2 class="offer-title">Mehmet ile Bir Gün</h2>
+            <p class="offer-desc">İşini tüm detaylarıyla ele aldığımız tam bir gün</p>
+            <span class="cta-muted">Yakında</span>
           </div>
 
-          <!-- 6. DFY -->
+          <!-- 6. Sizin İçin Yapılır -->
           <div class="offer-cell">
             <div class="offer-icon-wrap">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -964,9 +910,9 @@
                 <circle cx="16" cy="16" r="3" fill="#c49a6c" opacity="0.25"/>
               </svg>
             </div>
-            <h2 class="offer-title">DFY</h2>
-            <p class="offer-desc">Agency service</p>
-            <span class="cta-muted">No available spots</span>
+            <h2 class="offer-title">Sizin İçin Yapılır</h2>
+            <p class="offer-desc">Ajans hizmeti</p>
+            <span class="cta-muted">Müsait yer yok</span>
           </div>
 
           <!-- 7. Mastermind -->
@@ -978,11 +924,11 @@
               </svg>
             </div>
             <h2 class="offer-title">Mastermind</h2>
-            <p class="offer-desc">In person event</p>
-            <span class="cta-muted">Coming soon</span>
+            <p class="offer-desc">Yüz yüze etkinlik</p>
+            <span class="cta-muted">Yakında</span>
           </div>
 
-          <!-- 8. Your Own Platform -->
+          <!-- 8. Kendi Platformun -->
           <div class="offer-cell">
             <div class="offer-icon-wrap">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -993,9 +939,9 @@
                 <rect x="17" y="11" width="6" height="4" rx="1.5" fill="#c49a6c" opacity="0.35"/>
               </svg>
             </div>
-            <h2 class="offer-title">Your Own Platform</h2>
-            <p class="offer-desc">I'll build your very own AI platform</p>
-            <span class="cta-muted">Coming soon</span>
+            <h2 class="offer-title">Kendi Platformun</h2>
+            <p class="offer-desc">Sana özel bir yapay zeka platformu kuruyorum</p>
+            <span class="cta-muted">Yakında</span>
           </div>
 
         </div>
@@ -1009,23 +955,22 @@
 
 
   <!-- ══════════════════════════════
-       PAGE 2 — TOOLS DETAIL
+       SAYFA 2 — ARAÇLAR DETAY
   ══════════════════════════════ -->
   <div id="page-tools">
 
-    <!-- Navbar -->
     <nav class="tp-nav">
       <div style="display:flex;align-items:center;gap:20px;">
         <button class="tp-nav-back" onclick="showMenu()">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          Back
+          Geri
         </button>
         <div class="tp-nav-brand">Dijital Barista</div>
       </div>
       <div class="tp-nav-right">
-        <button class="tp-login-btn">Login</button>
+        <button class="tp-login-btn">Giriş Yap</button>
       </div>
     </nav>
 
@@ -1033,9 +978,9 @@
 
       <!-- Hero -->
       <div class="tp-hero">
-        <div class="tp-label">digitalcoffee.ai</div>
-        <h1>The exact tools I used to build a <em>$500k/year</em> solo-consulting business</h1>
-        <p class="tp-hero-note">All prices are early-bird offers. VAT/tax is added automatically at checkout where required.</p>
+        <div class="tp-label">dijitalbarista.ai</div>
+        <h1>Yıllık <em>500.000$</em> kazandıran solo danışmanlık işimi kurmak için kullandığım araçlar</h1>
+        <p class="tp-hero-note">Tüm fiyatlar erken kayıt fırsatıdır. KDV/vergi, gerektiğinde ödeme sırasında otomatik olarak eklenir.</p>
       </div>
 
       <!-- Video -->
@@ -1091,122 +1036,121 @@
         </div>
       </div>
 
-      <!-- Join Section -->
+      <!-- Katılım Bölümü -->
       <div class="tp-join-section">
         <div class="tp-section-divider">
-          <span>2 ways to join</span>
+          <span>Katılmanın 2 yolu</span>
         </div>
-        <p class="tp-join-note">All prices are early-bird offers. VAT/tax is added automatically at checkout where required.</p>
+        <p class="tp-join-note">Tüm fiyatlar erken kayıt fırsatıdır. KDV/vergi, gerektiğinde ödeme sırasında otomatik olarak eklenir.</p>
 
         <div class="tp-toggle">
-          <button class="tp-toggle-btn active" id="toggle-intl" onclick="setToggle('intl')">International (excl. VAT)</button>
-          <button class="tp-toggle-btn" id="toggle-dk" onclick="setToggle('dk')">Denmark (incl. VAT)</button>
+          <button class="tp-toggle-btn active" id="toggle-intl" onclick="setToggle('intl')">Uluslararası (KDV Hariç)</button>
+          <button class="tp-toggle-btn" id="toggle-dk" onclick="setToggle('dk')">Danimarka (KDV Dahil)</button>
         </div>
 
-        <!-- Pricing Cards -->
+        <!-- Fiyat Kartları -->
         <div class="tp-pricing-grid">
 
-          <!-- Monthly -->
+          <!-- Aylık -->
           <div class="tp-price-card">
-            <p class="tp-card-option">Option 1</p>
-            <h2 class="tp-card-title">The Monthly</h2>
+            <p class="tp-card-option">Seçenek 1</p>
+            <h2 class="tp-card-title">Aylık Plan</h2>
             <div class="tp-card-price">
               <span class="tp-price-currency">$</span>
               <span class="tp-price-amount">397</span>
             </div>
-            <p class="tp-price-sub">per month · cancel anytime<br>USD billing · no VAT</p>
+            <p class="tp-price-sub">aylık · istediğin zaman iptal et<br>USD fatura · KDV yok</p>
             <div class="tp-divider-line"></div>
             <ul class="tp-features">
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                No contract. Cancel anytime.
+                Sözleşme yok. İstediğin zaman iptal et.
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Full access to the platform: The Menu Card Maker, The Daily Story, Campaign Coach and Onboarding AI
+                Platforma tam erişim: Menü Kartı Oluşturucu, Günlük Hikaye, Kampanya Koçu ve Kayıt YZ
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                The Classroom filled with all tools, trainings, frameworks and guides
+                Tüm araçlar, eğitimler, çerçeveler ve kılavuzlarla dolu Sınıf
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                A monthly group-call with Fred — what's working now and insights
+                Mehmet ile aylık grup görüşmesi — şu an neler işe yarıyor ve içgörüler
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Access to all future workshops
+                Tüm gelecek atölyelere erişim
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Access to all future AI coaches, modules and trainings
+                Tüm gelecek YZ koçlarına, modüllere ve eğitimlere erişim
               </li>
             </ul>
-            <button class="tp-cta-btn">Claim the Monthly for $397 →</button>
-            <p class="tp-card-footnote">Then $397/month. No contracts. Cancel anytime.</p>
+            <button class="tp-cta-btn">Aylık Planı $397'ye Al →</button>
+            <p class="tp-card-footnote">Sonrasında $397/ay. Sözleşme yok. İstediğin zaman iptal et.</p>
           </div>
 
-          <!-- Annual -->
+          <!-- Yıllık -->
           <div class="tp-price-card featured">
             <div class="tp-card-badge">
               <svg viewBox="0 0 10 10" fill="none"><path d="M5 1l1.2 2.6 2.8.4-2 2 .5 2.8L5 7.5 2.5 8.8l.5-2.8-2-2 2.8-.4L5 1z" fill="#9b6a3c"/></svg>
-              Most beans for your buck
+              Paranın karşılığını fazlasıyla al
             </div>
-            <p class="tp-card-option">Option 2</p>
-            <h2 class="tp-card-title">The Annual</h2>
+            <p class="tp-card-option">Seçenek 2</p>
+            <h2 class="tp-card-title">Yıllık Plan</h2>
             <div class="tp-card-price">
               <span class="tp-price-currency">$</span>
-              <span class="tp-price-amount">2,497</span>
+              <span class="tp-price-amount">2.497</span>
             </div>
-            <p class="tp-price-sub">per year · save $2,267 vs. monthly<br>USD billing · no VAT</p>
+            <p class="tp-price-sub">yıllık · aylığa göre $2.267 tasarruf<br>USD fatura · KDV yok</p>
             <div class="tp-divider-line"></div>
             <ul class="tp-features">
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Save $2,267 vs. monthly
+                Aylığa göre $2.267 tasarruf
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                1-on-1 call with Fred
+                Mehmet ile 1'e 1 görüşme
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                4 weeks membership in Fred's Inner Circle
+                Mehmet'in İç Çevresi'nde 4 haftalık üyelik
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Full access to the platform: The Menu Card Maker, The Daily Story, Campaign Coach and Onboarding AI
+                Platforma tam erişim: Menü Kartı Oluşturucu, Günlük Hikaye, Kampanya Koçu ve Kayıt YZ
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                The Classroom filled with all tools, trainings, frameworks and guides
+                Tüm araçlar, eğitimler, çerçeveler ve kılavuzlarla dolu Sınıf
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                A monthly group-call with Fred — what's working now and insights
+                Mehmet ile aylık grup görüşmesi — şu an neler işe yarıyor ve içgörüler
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Access to all future workshops
+                Tüm gelecek atölyelere erişim
               </li>
               <li>
                 <span class="tp-check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#9b6a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Access to all future AI coaches, modules and trainings
+                Tüm gelecek YZ koçlarına, modüllere ve eğitimlere erişim
               </li>
             </ul>
-            <button class="tp-cta-btn">Claim the Annual for $2,497 →</button>
-            <p class="tp-card-footnote">Renews annually. No contracts. Cancel anytime.</p>
+            <button class="tp-cta-btn">Yıllık Planı $2.497'ye Al →</button>
+            <p class="tp-card-footnote">Yıllık yenilenir. Sözleşme yok. İstediğin zaman iptal et.</p>
           </div>
 
         </div>
       </div>
     </div>
 
-    <!-- Footer -->
     <footer class="tp-footer">
-      <span class="tp-footer-brand">Digital Coffee ApS</span>
+      <span class="tp-footer-brand">Dijital Barista</span>
       <div class="tp-footer-links">
-        <a href="#">Privacy Policy</a>
+        <a href="#">Gizlilik Politikası</a>
       </div>
     </footer>
 
@@ -1218,7 +1162,7 @@
       document.getElementById('page-menu').style.display = 'none';
       document.getElementById('page-tools').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      document.title = 'Tools — Digital Coffee AI';
+      document.title = 'Araçlar — Dijital Barista';
     }
 
     function showMenu() {
