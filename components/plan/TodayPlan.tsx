@@ -44,7 +44,7 @@ export default function TodayPlan({ store }: TodayPlanProps) {
       setWorkBlocks(plan.workBlocks);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [today]);
+  }, [data.todayPlan]);
 
   function handleSave() {
     saveTodayPlan({

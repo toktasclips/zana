@@ -50,7 +50,6 @@ export default function Contents({ store }: ContentsProps) {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [editId, setEditId] = useState<string | null>(null);
-  const [expanded, setExpanded] = useState<string | null>(null);
 
   function handleSubmit() {
     if (!form.title.trim()) return;
@@ -87,29 +86,28 @@ export default function Contents({ store }: ContentsProps) {
     <div className="p-6 lg:p-8 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-semibold text-stone-900 mb-1">İçerikler</h2>
-          <p className="text-sm text-stone-400">{data.contentIdeas.length} içerik fikri</p>
+          <h2 className="text-2xl font-semibold text-stone-900 mb-1">İçerik Fikirleri</h2>
+          <p className="text-sm text-stone-400">{data.contentIdeas.length} fikir</p>
         </div>
         <button
           onClick={() => { setShowForm(true); setEditId(null); setForm(emptyForm); }}
           className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors"
         >
-          + İçerik Ekle
+          + Fikir Ekle
         </button>
       </div>
 
-      {/* Form */}
       {showForm && (
         <div className="bg-white rounded-2xl border border-stone-100 p-5 mb-5">
           <h3 className="text-sm font-semibold text-stone-900 mb-4">
-            {editId ? 'İçeriği Düzenle' : 'Yeni İçerik Fikri'}
+            {editId ? 'Fikri Düzenle' : 'Yeni İçerik Fikri'}
           </h3>
           <div className="space-y-3">
             <input
               autoFocus
               value={form.title}
               onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
-              placeholder="İçerik başlığı"
+              placeholder="Fikir başlığı"
               className="w-full text-sm bg-stone-50 border border-stone-200 rounded-xl px-3 py-2.5 placeholder:text-stone-300 focus:border-stone-400"
             />
             <div className="grid grid-cols-2 gap-3">
@@ -138,26 +136,6 @@ export default function Contents({ store }: ContentsProps) {
                 </select>
               </div>
             </div>
-            <textarea
-              value={form.hook}
-              onChange={e => setForm(p => ({ ...p, hook: e.target.value }))}
-              placeholder="Hook — ilk cümle / dikkat çekici"
-              rows={2}
-              className="w-full text-sm bg-stone-50 border border-stone-200 rounded-xl px-3 py-2.5 resize-none placeholder:text-stone-300 focus:border-stone-400"
-            />
-            <textarea
-              value={form.mainIdea}
-              onChange={e => setForm(p => ({ ...p, mainIdea: e.target.value }))}
-              placeholder="Ana fikir"
-              rows={2}
-              className="w-full text-sm bg-stone-50 border border-stone-200 rounded-xl px-3 py-2.5 resize-none placeholder:text-stone-300 focus:border-stone-400"
-            />
-            <input
-              value={form.cta}
-              onChange={e => setForm(p => ({ ...p, cta: e.target.value }))}
-              placeholder="CTA — harekete geçirici"
-              className="w-full text-sm bg-stone-50 border border-stone-200 rounded-xl px-3 py-2.5 placeholder:text-stone-300 focus:border-stone-400"
-            />
             <div className="flex gap-2 pt-1">
               <button
                 onClick={handleSubmit}
@@ -176,22 +154,18 @@ export default function Contents({ store }: ContentsProps) {
         </div>
       )}
 
-      {/* Content Cards */}
       {data.contentIdeas.length === 0 ? (
         <div className="bg-white rounded-2xl border border-stone-100 p-10 text-center">
           <p className="text-stone-400 text-sm">Henüz içerik fikri yok.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {data.contentIdeas.map(idea => (
             <div key={idea.id} className="bg-white rounded-2xl border border-stone-100 p-4">
               <div className="flex items-start justify-between gap-2 mb-3">
                 <div className="flex gap-2 flex-wrap">
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${PLATFORM_STYLE[idea.platform]}`}>
                     {PLATFORM_LABEL[idea.platform]}
-                  </span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_STYLE[idea.status]}`}>
-                    {STATUS_LABEL[idea.status]}
                   </span>
                 </div>
                 <div className="flex gap-1 shrink-0">
@@ -216,51 +190,17 @@ export default function Contents({ store }: ContentsProps) {
                 </div>
               </div>
 
-              <h3 className="text-sm font-semibold text-stone-900 mb-2">{idea.title}</h3>
+              <h3 className="text-sm font-semibold text-stone-900 mb-3">{idea.title}</h3>
 
-              {(idea.hook || idea.mainIdea || idea.cta) && (
-                <button
-                  onClick={() => setExpanded(expanded === idea.id ? null : idea.id)}
-                  className="text-xs text-stone-400 hover:text-stone-600 transition-colors"
-                >
-                  {expanded === idea.id ? 'Gizle' : 'Detaylar'}
-                </button>
-              )}
-
-              {expanded === idea.id && (
-                <div className="mt-3 space-y-2.5 pt-3 border-t border-stone-50">
-                  {idea.hook && (
-                    <div>
-                      <p className="text-xs font-medium text-stone-400 mb-0.5">Hook</p>
-                      <p className="text-xs text-stone-600 leading-relaxed">{idea.hook}</p>
-                    </div>
-                  )}
-                  {idea.mainIdea && (
-                    <div>
-                      <p className="text-xs font-medium text-stone-400 mb-0.5">Ana Fikir</p>
-                      <p className="text-xs text-stone-600 leading-relaxed">{idea.mainIdea}</p>
-                    </div>
-                  )}
-                  {idea.cta && (
-                    <div>
-                      <p className="text-xs font-medium text-stone-400 mb-0.5">CTA</p>
-                      <p className="text-xs text-stone-600 leading-relaxed">{idea.cta}</p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <div className="mt-3">
-                <select
-                  value={idea.status}
-                  onChange={e => updateContentIdea(idea.id, { status: e.target.value as ContentStatus })}
-                  className="text-xs bg-stone-50 border border-stone-200 rounded-lg px-2 py-1 focus:border-stone-400"
-                >
-                  {(Object.keys(STATUS_LABEL) as ContentStatus[]).map(s => (
-                    <option key={s} value={s}>{STATUS_LABEL[s]}</option>
-                  ))}
-                </select>
-              </div>
+              <select
+                value={idea.status}
+                onChange={e => updateContentIdea(idea.id, { status: e.target.value as ContentStatus })}
+                className={`text-xs font-medium px-2 py-1 rounded-full border-0 cursor-pointer ${STATUS_STYLE[idea.status]}`}
+              >
+                {(Object.keys(STATUS_LABEL) as ContentStatus[]).map(s => (
+                  <option key={s} value={s}>{STATUS_LABEL[s]}</option>
+                ))}
+              </select>
             </div>
           ))}
         </div>
