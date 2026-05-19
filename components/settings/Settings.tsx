@@ -4,22 +4,36 @@ import { useState, useEffect } from 'react';
 import { StoreType } from '@/hooks/useStore';
 
 function NotificationSettings() {
-  const [status, setStatus] = useState<'default' | 'granted' | 'denied' | 'unsupported'>('default');
+  const [status, setStatus] = useState<'default' | 'granted' | 'denied' | 'unsupported' | 'loading'>('default');
 
   useEffect(() => {
     if (!('Notification' in window)) {
       setStatus('unsupported');
     } else {
-      setStatus(Notification.permission as typeof status);
+      setStatus(Notification.permission as 'default' | 'granted' | 'denied');
     }
   }, []);
 
   async function handleEnable() {
-    if (typeof window === 'undefined' || !window.OneSignalDeferred) return;
-    window.OneSignalDeferred.push(async (OneSignal: { User: { PushSubscription: { optIn: () => Promise<void> } } }) => {
-      await OneSignal.User.PushSubscription.optIn();
+    setStatus('loading');
+    try {
+      // Native permission request first
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        setStatus(permission as 'denied' | 'default');
+        return;
+      }
       setStatus('granted');
-    });
+
+      // Then hook into OneSignal if available
+      if (window.OneSignalDeferred) {
+        window.OneSignalDeferred.push(async (OneSignal: { User: { PushSubscription: { optIn: () => Promise<void> } } }) => {
+          try { await OneSignal.User.PushSubscription.optIn(); } catch { /* ignore */ }
+        });
+      }
+    } catch {
+      setStatus('default');
+    }
   }
 
   if (status === 'unsupported') return null;
@@ -35,9 +49,12 @@ function NotificationSettings() {
           <p className="text-sm text-stone-600">Bildirimler açık. Her gün sabah, öğle ve akşam hatırlatıcı gelecek.</p>
         </div>
       ) : status === 'denied' ? (
-        <p className="text-sm text-stone-500">
-          Bildirimler engellendi. Tarayıcı ayarlarından izin ver.
-        </p>
+        <div>
+          <p className="text-sm text-red-500 mb-2">Bildirimler engellendi.</p>
+          <p className="text-xs text-stone-400 leading-relaxed">
+            Chrome: Adres çubuğundaki kilit ikonuna tıkla → Bildirimler → İzin Ver → Sayfayı yenile.
+          </p>
+        </div>
       ) : (
         <div>
           <p className="text-xs text-stone-500 mb-3 leading-relaxed">
@@ -45,9 +62,10 @@ function NotificationSettings() {
           </p>
           <button
             onClick={handleEnable}
-            className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors"
+            disabled={status === 'loading'}
+            className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors disabled:opacity-50"
           >
-            Bildirimleri Aç
+            {status === 'loading' ? 'Bekleniyor...' : 'Bildirimleri Aç'}
           </button>
         </div>
       )}
