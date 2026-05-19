@@ -6,11 +6,10 @@ import Dashboard from '@/components/dashboard/Dashboard';
 import TodayPlan from '@/components/plan/TodayPlan';
 import Tasks from '@/components/tasks/Tasks';
 import Contents from '@/components/content/Contents';
-import EndOfDay from '@/components/eod/EndOfDay';
 import Settings from '@/components/settings/Settings';
 import { useStore } from '@/hooks/useStore';
 
-export type Page = 'dashboard' | 'plan' | 'tasks' | 'content' | 'eod' | 'settings';
+export type Page = 'dashboard' | 'plan' | 'tasks' | 'content' | 'settings';
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState<Page>('dashboard');
@@ -54,7 +53,6 @@ export default function Home() {
           {currentPage === 'plan' && <TodayPlan store={store} />}
           {currentPage === 'tasks' && <Tasks store={store} />}
           {currentPage === 'content' && <Contents store={store} />}
-          {currentPage === 'eod' && <EndOfDay store={store} />}
           {currentPage === 'settings' && <Settings store={store} />}
         </main>
       </div>

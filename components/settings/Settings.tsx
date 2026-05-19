@@ -55,6 +55,39 @@ function NotificationSettings() {
   );
 }
 
+function TestNotification() {
+  const [state, setState] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle');
+
+  async function handleTest() {
+    setState('loading');
+    try {
+      const res = await fetch('/api/test-notify', { method: 'POST' });
+      setState(res.ok ? 'ok' : 'error');
+    } catch {
+      setState('error');
+    }
+    setTimeout(() => setState('idle'), 3000);
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-stone-100 p-5">
+      <p className="text-xs font-medium text-stone-400 uppercase tracking-widest mb-3">Test Bildirimi</p>
+      <p className="text-xs text-stone-500 mb-3">Tüm abonelere anlık bildirim gönder.</p>
+      <button
+        onClick={handleTest}
+        disabled={state === 'loading'}
+        className={`px-4 py-2 text-sm font-medium rounded-xl transition-colors ${
+          state === 'ok' ? 'bg-green-100 text-green-700' :
+          state === 'error' ? 'bg-red-100 text-red-600' :
+          'bg-stone-900 text-white hover:bg-stone-800'
+        }`}
+      >
+        {state === 'loading' ? 'Gönderiliyor...' : state === 'ok' ? 'Gönderildi!' : state === 'error' ? 'Hata' : 'Test Gönder'}
+      </button>
+    </div>
+  );
+}
+
 interface SettingsProps {
   store: StoreType;
 }
@@ -162,6 +195,7 @@ export default function Settings({ store }: SettingsProps) {
         </button>
 
         <NotificationSettings />
+        <TestNotification />
 
         <div className="bg-white rounded-2xl border border-stone-100 p-5">
           <p className="text-xs font-medium text-stone-400 uppercase tracking-widest mb-3">

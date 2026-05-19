@@ -7,7 +7,6 @@ const navItems: { id: Page; label: string }[] = [
   { id: 'plan', label: 'Bugünün Planı' },
   { id: 'tasks', label: 'Görevler' },
   { id: 'content', label: 'İçerikler' },
-  { id: 'eod', label: 'Gün Sonu' },
   { id: 'settings', label: 'Ayarlar' },
 ];
 

@@ -50,6 +50,7 @@ export function useStore() {
       date: plan.date,
       main_goal: plan.mainGoal,
       must_do: plan.mustDo,
+      must_do_done: plan.mustDoDone,
       distractions: plan.distractions,
       energy_level: plan.energyLevel,
       work_blocks: plan.workBlocks,

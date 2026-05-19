@@ -29,6 +29,7 @@ export interface TodayPlan {
   date: string;
   mainGoal: string;
   mustDo: [string, string, string];
+  mustDoDone: [boolean, boolean, boolean];
   distractions: string;
   energyLevel: number;
   workBlocks: WorkBlock[];
@@ -74,6 +75,7 @@ export interface Settings {
 export interface AppData {
   tasks: Task[];
   todayPlan: TodayPlan | null;
+  previousPlan: TodayPlan | null;
   contentIdeas: ContentIdea[];
   writingQueue: WritingItem[];
   endOfDayReviews: EndOfDayReview[];

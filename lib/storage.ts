@@ -1,9 +1,10 @@
 import { supabase } from './supabase';
-import { AppData, Task, TodayPlan, ContentIdea, WritingItem, EndOfDayReview } from './types';
+import { AppData, Task, TodayPlan, WorkBlock, ContentIdea, WritingItem, EndOfDayReview } from './types';
 
 export const defaultData: AppData = {
   tasks: [],
   todayPlan: null,
+  previousPlan: null,
   contentIdeas: [],
   writingQueue: [],
   endOfDayReviews: [],
@@ -20,9 +21,12 @@ export const defaultData: AppData = {
 export async function loadData(): Promise<AppData> {
   const today = new Date().toISOString().split('T')[0];
 
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
   const [
     { data: tasks },
     { data: todayPlans },
+    { data: yesterdayPlans },
     { data: contentIdeas },
     { data: writingItems },
     { data: reviews },
@@ -32,6 +36,7 @@ export async function loadData(): Promise<AppData> {
   ] = await Promise.all([
     supabase.from('tasks').select('*'),
     supabase.from('today_plans').select('*').eq('date', today),
+    supabase.from('today_plans').select('*').eq('date', yesterday),
     supabase.from('content_ideas').select('*'),
     supabase.from('writing_items').select('*'),
     supabase.from('end_of_day_reviews').select('*'),
@@ -41,6 +46,20 @@ export async function loadData(): Promise<AppData> {
   ]);
 
   const todayPlanRow = todayPlans?.[0] ?? null;
+  const yesterdayPlanRow = yesterdayPlans?.[0] ?? null;
+
+  function mapPlan(row: Record<string, unknown> | null): TodayPlan | null {
+    if (!row) return null;
+    return {
+      date: row.date as string,
+      mainGoal: (row.main_goal as string) ?? '',
+      mustDo: (row.must_do as [string, string, string]) ?? ['', '', ''],
+      mustDoDone: (row.must_do_done as [boolean, boolean, boolean]) ?? [false, false, false],
+      distractions: (row.distractions as string) ?? '',
+      energyLevel: (row.energy_level as number) ?? 3,
+      workBlocks: (row.work_blocks as WorkBlock[]) ?? [],
+    };
+  }
 
   return {
     tasks: (tasks ?? []).map((t): Task => ({
@@ -53,14 +72,8 @@ export async function loadData(): Promise<AppData> {
       dueDate: t.due_date ?? '',
       createdAt: t.created_at,
     })),
-    todayPlan: todayPlanRow ? ({
-      date: todayPlanRow.date,
-      mainGoal: todayPlanRow.main_goal ?? '',
-      mustDo: todayPlanRow.must_do ?? ['', '', ''],
-      distractions: todayPlanRow.distractions ?? '',
-      energyLevel: todayPlanRow.energy_level ?? 3,
-      workBlocks: todayPlanRow.work_blocks ?? [],
-    } as TodayPlan) : null,
+    todayPlan: mapPlan(todayPlanRow as Record<string, unknown> | null),
+    previousPlan: mapPlan(yesterdayPlanRow as Record<string, unknown> | null),
     contentIdeas: (contentIdeas ?? []).map((c): ContentIdea => ({
       id: c.id,
       title: c.title,
