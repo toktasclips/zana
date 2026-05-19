@@ -91,7 +91,7 @@ export default function TodayPlan({ store }: TodayPlanProps) {
   }
 
   function addOverdueItem(item: string) {
-    const emptyIndex = mustDo.findIndex(m => !m.trim()) as 0 | 1 | 2;
+    const emptyIndex = mustDo.findIndex(m => !m.trim());
     if (emptyIndex === -1) return;
     const next = [...mustDo] as [string, string, string];
     next[emptyIndex] = item;
