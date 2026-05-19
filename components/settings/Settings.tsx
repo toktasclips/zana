@@ -3,6 +3,58 @@
 import { useState, useEffect } from 'react';
 import { StoreType } from '@/hooks/useStore';
 
+function NotificationSettings() {
+  const [status, setStatus] = useState<'default' | 'granted' | 'denied' | 'unsupported'>('default');
+
+  useEffect(() => {
+    if (!('Notification' in window)) {
+      setStatus('unsupported');
+    } else {
+      setStatus(Notification.permission as typeof status);
+    }
+  }, []);
+
+  async function handleEnable() {
+    if (typeof window === 'undefined' || !window.OneSignalDeferred) return;
+    window.OneSignalDeferred.push(async (OneSignal: { User: { PushSubscription: { optIn: () => Promise<void> } } }) => {
+      await OneSignal.User.PushSubscription.optIn();
+      setStatus('granted');
+    });
+  }
+
+  if (status === 'unsupported') return null;
+
+  return (
+    <div className="bg-white rounded-2xl border border-stone-100 p-5">
+      <p className="text-xs font-medium text-stone-400 uppercase tracking-widest mb-3">
+        Bildirimler
+      </p>
+      {status === 'granted' ? (
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-green-500" />
+          <p className="text-sm text-stone-600">Bildirimler açık. Her gün sabah, öğle ve akşam hatırlatıcı gelecek.</p>
+        </div>
+      ) : status === 'denied' ? (
+        <p className="text-sm text-stone-500">
+          Bildirimler engellendi. Tarayıcı ayarlarından izin ver.
+        </p>
+      ) : (
+        <div>
+          <p className="text-xs text-stone-500 mb-3 leading-relaxed">
+            Günde 3 hatırlatıcı: sabah planı, öğle kontrolü, akşam gün sonu.
+          </p>
+          <button
+            onClick={handleEnable}
+            className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors"
+          >
+            Bildirimleri Aç
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface SettingsProps {
   store: StoreType;
 }
@@ -108,6 +160,8 @@ export default function Settings({ store }: SettingsProps) {
         >
           {saved ? 'Kaydedildi' : 'Ayarları Kaydet'}
         </button>
+
+        <NotificationSettings />
 
         <div className="bg-white rounded-2xl border border-stone-100 p-5">
           <p className="text-xs font-medium text-stone-400 uppercase tracking-widest mb-3">
