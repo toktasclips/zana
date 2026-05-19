@@ -26,22 +26,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="tr" className="h-full">
       <head>
-        <link rel="apple-touch-icon" href="/icon-192.svg" />
-        <Script
-          src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
-          strategy="afterInteractive"
-        />
-        <Script id="onesignal-init" strategy="afterInteractive">
+        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <Script id="register-sw" strategy="afterInteractive">
           {`
-            window.OneSignalDeferred = window.OneSignalDeferred || [];
-            OneSignalDeferred.push(async function(OneSignal) {
-              await OneSignal.init({
-                appId: "622779c8-8665-45eb-be02-07c0ae16282d",
-                safari_web_id: "web.onesignal.auto.01b20842-ed7c-48c4-bd42-e78491d78625",
-                notifyButton: { enable: false },
-                allowLocalhostAsSecureOrigin: true,
-              });
-            });
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.register('/sw.js').catch(() => {});
+            }
           `}
         </Script>
       </head>

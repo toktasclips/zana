@@ -3,11 +3,20 @@
 import { useState, useEffect } from 'react';
 import { StoreType } from '@/hooks/useStore';
 
+const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
+
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = atob(base64);
+  return Uint8Array.from([...rawData].map((c) => c.charCodeAt(0)));
+}
+
 function NotificationSettings() {
   const [status, setStatus] = useState<'default' | 'granted' | 'denied' | 'unsupported' | 'loading'>('default');
 
   useEffect(() => {
-    if (!('Notification' in window)) {
+    if (!('Notification' in window) || !('serviceWorker' in navigator)) {
       setStatus('unsupported');
     } else {
       setStatus(Notification.permission as 'default' | 'granted' | 'denied');
@@ -17,20 +26,26 @@ function NotificationSettings() {
   async function handleEnable() {
     setStatus('loading');
     try {
-      // Native permission request first
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') {
         setStatus(permission as 'denied' | 'default');
         return;
       }
-      setStatus('granted');
 
-      // Then hook into OneSignal if available
-      if (window.OneSignalDeferred) {
-        window.OneSignalDeferred.push(async (OneSignal: { User: { PushSubscription: { optIn: () => Promise<void> } } }) => {
-          try { await OneSignal.User.PushSubscription.optIn(); } catch { /* ignore */ }
-        });
-      }
+      const reg = await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      });
+
+      const { endpoint, keys } = sub.toJSON() as { endpoint: string; keys: { p256dh: string; auth: string } };
+      await fetch('/api/push-subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ endpoint, p256dh: keys.p256dh, auth: keys.auth }),
+      });
+
+      setStatus('granted');
     } catch {
       setStatus('default');
     }
@@ -46,13 +61,13 @@ function NotificationSettings() {
       {status === 'granted' ? (
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-green-500" />
-          <p className="text-sm text-stone-600">Bildirimler açık. Her gün sabah, öğle ve akşam hatırlatıcı gelecek.</p>
+          <p className="text-sm text-stone-600">Bildirimler açık. Sabah, öğle ve akşam hatırlatıcı gelecek.</p>
         </div>
       ) : status === 'denied' ? (
         <div>
           <p className="text-sm text-red-500 mb-2">Bildirimler engellendi.</p>
           <p className="text-xs text-stone-400 leading-relaxed">
-            Chrome: Adres çubuğundaki kilit ikonuna tıkla → Bildirimler → İzin Ver → Sayfayı yenile.
+            Adres çubuğundaki kilit ikonuna tıkla → Bildirimler → İzin Ver → Sayfayı yenile.
           </p>
         </div>
       ) : (
@@ -65,7 +80,7 @@ function NotificationSettings() {
             disabled={status === 'loading'}
             className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors disabled:opacity-50"
           >
-            {status === 'loading' ? 'Bekleniyor...' : 'Bildirimleri Aç'}
+            {status === 'loading' ? 'Kaydediliyor...' : 'Bildirimleri Aç'}
           </button>
         </div>
       )}
