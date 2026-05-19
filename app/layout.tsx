@@ -21,10 +21,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="onesignal-init" strategy="afterInteractive">
           {`
             window.OneSignalDeferred = window.OneSignalDeferred || [];
-            OneSignalDeferred.push(function(OneSignal) {
-              OneSignal.init({
-                appId: "${process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID}",
-                notifyButton: { enable: false },
+            OneSignalDeferred.push(async function(OneSignal) {
+              await OneSignal.init({
+                appId: "622779c8-8665-45eb-be02-07c0ae16282d",
+                safari_web_id: "web.onesignal.auto.01b20842-ed7c-48c4-bd42-e78491d78625",
+                notifyButton: { enable: true },
                 allowLocalhostAsSecureOrigin: true,
               });
             });
