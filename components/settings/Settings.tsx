@@ -13,7 +13,8 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 function NotificationSettings() {
-  const [status, setStatus] = useState<'default' | 'granted' | 'denied' | 'unsupported' | 'loading'>('default');
+  const [status, setStatus] = useState<'default' | 'granted' | 'denied' | 'unsupported' | 'loading' | 'error'>('default');
+  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     if (!('Notification' in window) || !('serviceWorker' in navigator)) {
@@ -25,6 +26,7 @@ function NotificationSettings() {
 
   async function handleEnable() {
     setStatus('loading');
+    setErrMsg('');
     try {
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') {
@@ -33,21 +35,36 @@ function NotificationSettings() {
       }
 
       const reg = await navigator.serviceWorker.ready;
+
+      if (!VAPID_PUBLIC_KEY) {
+        setErrMsg('VAPID_PUBLIC_KEY eksik — Vercel env var ayarla ve redeploy yap.');
+        setStatus('error');
+        return;
+      }
+
       const sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
       });
 
       const { endpoint, keys } = sub.toJSON() as { endpoint: string; keys: { p256dh: string; auth: string } };
-      await fetch('/api/push-subscribe', {
+      const res = await fetch('/api/push-subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ endpoint, p256dh: keys.p256dh, auth: keys.auth }),
       });
 
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setErrMsg(data?.error ?? `Supabase kayıt hatası (${res.status})`);
+        setStatus('error');
+        return;
+      }
+
       setStatus('granted');
-    } catch {
-      setStatus('default');
+    } catch (e) {
+      setErrMsg(e instanceof Error ? e.message : 'Bilinmeyen hata');
+      setStatus('error');
     }
   }
 
@@ -69,6 +86,17 @@ function NotificationSettings() {
           <p className="text-xs text-stone-400 leading-relaxed">
             Adres çubuğundaki kilit ikonuna tıkla → Bildirimler → İzin Ver → Sayfayı yenile.
           </p>
+        </div>
+      ) : status === 'error' ? (
+        <div>
+          <p className="text-sm text-red-500 mb-2">Hata oluştu.</p>
+          <p className="text-xs text-red-400 mb-3 leading-relaxed font-mono">{errMsg}</p>
+          <button
+            onClick={handleEnable}
+            className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors"
+          >
+            Tekrar Dene
+          </button>
         </div>
       ) : (
         <div>
