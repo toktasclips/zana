@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { sendPushToAll } from '@/lib/webpush';
+import { sendNotification } from '@/lib/webpush';
 
 export async function POST() {
-  const result = await sendPushToAll('Test Bildirimi 🔔', 'Kafi bildirimleri çalışıyor!');
-  if (result.sent === 0) {
-    return NextResponse.json({ error: 'Abone yok. Önce bildirimleri aç.' }, { status: 400 });
+  const result = await sendNotification('Test Bildirimi 🔔', 'Kafi bildirimleri çalışıyor!');
+  if (!result.telegram && result.webPush === 0) {
+    return NextResponse.json({ error: 'Telegram chat_id veya web push abonesi yok.' }, { status: 400 });
   }
   return NextResponse.json(result);
 }

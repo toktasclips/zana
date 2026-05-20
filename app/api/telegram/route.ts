@@ -21,10 +21,12 @@ export async function POST(request: Request) {
   const text: string = message.text.trim();
   const db = getSupabase();
 
-  // /start
+  // /start — save chat_id for notifications
   if (text.startsWith('/start')) {
+    await db.from('settings').update({ telegram_chat_id: chatId }).eq('id', 1);
     await send(chatId,
       '👋 Merhaba! Ben Kafi botuyum.\n\n' +
+      '✅ Bu sohbet bildirimler için kaydedildi.\n\n' +
       '<b>Komutlar:</b>\n' +
       '/liste — Açık görevleri listele\n' +
       '/bugün — Bugünün planını göster\n' +
