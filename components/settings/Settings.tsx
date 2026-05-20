@@ -13,31 +13,44 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 function NotificationSettings() {
-  const [status, setStatus] = useState<'default' | 'granted' | 'denied' | 'unsupported' | 'loading' | 'error'>('default');
+  const [status, setStatus] = useState<'checking' | 'subscribed' | 'not-subscribed' | 'denied' | 'unsupported' | 'loading' | 'error'>('checking');
   const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     if (!('Notification' in window) || !('serviceWorker' in navigator)) {
       setStatus('unsupported');
-    } else {
-      setStatus(Notification.permission as 'default' | 'granted' | 'denied');
+      return;
     }
+    if (Notification.permission === 'denied') {
+      setStatus('denied');
+      return;
+    }
+    // Check if actually subscribed to our push server
+    navigator.serviceWorker.ready.then(reg =>
+      reg.pushManager.getSubscription()
+    ).then(sub => {
+      setStatus(sub ? 'subscribed' : 'not-subscribed');
+    }).catch(() => setStatus('not-subscribed'));
   }, []);
 
-  async function handleEnable() {
+  async function handleSubscribe() {
     setStatus('loading');
     setErrMsg('');
     try {
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') {
-        setStatus(permission as 'denied' | 'default');
+        setStatus(permission === 'denied' ? 'denied' : 'not-subscribed');
         return;
       }
 
       const reg = await navigator.serviceWorker.ready;
 
+      // Unsubscribe existing sub (force fresh subscription with new VAPID key)
+      const existing = await reg.pushManager.getSubscription();
+      if (existing) await existing.unsubscribe();
+
       if (!VAPID_PUBLIC_KEY) {
-        setErrMsg('VAPID_PUBLIC_KEY eksik — Vercel env var ayarla ve redeploy yap.');
+        setErrMsg('VAPID_PUBLIC_KEY eksik — Vercel env var ayarla ve redeploy et.');
         setStatus('error');
         return;
       }
@@ -47,21 +60,21 @@ function NotificationSettings() {
         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
       });
 
-      const { endpoint, keys } = sub.toJSON() as { endpoint: string; keys: { p256dh: string; auth: string } };
+      const json = sub.toJSON() as { endpoint: string; keys: { p256dh: string; auth: string } };
       const res = await fetch('/api/push-subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ endpoint, p256dh: keys.p256dh, auth: keys.auth }),
+        body: JSON.stringify({ endpoint: json.endpoint, p256dh: json.keys.p256dh, auth: json.keys.auth }),
       });
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setErrMsg(data?.error ?? `Supabase kayıt hatası (${res.status})`);
+        setErrMsg(data?.error ?? `Supabase kayıt hatası (${res.status}) — tablo oluşturuldu mu?`);
         setStatus('error');
         return;
       }
 
-      setStatus('granted');
+      setStatus('subscribed');
     } catch (e) {
       setErrMsg(e instanceof Error ? e.message : 'Bilinmeyen hata');
       setStatus('error');
@@ -75,10 +88,15 @@ function NotificationSettings() {
       <p className="text-xs font-medium text-stone-400 uppercase tracking-widest mb-3">
         Bildirimler
       </p>
-      {status === 'granted' ? (
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-green-500" />
-          <p className="text-sm text-stone-600">Bildirimler açık. Sabah, öğle ve akşam hatırlatıcı gelecek.</p>
+      {status === 'subscribed' ? (
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-2 h-2 rounded-full bg-green-500" />
+            <p className="text-sm text-stone-600">Bildirimler aktif.</p>
+          </div>
+          <button onClick={handleSubscribe} className="text-xs text-stone-400 hover:text-stone-600 underline">
+            Yeniden kayıt et
+          </button>
         </div>
       ) : status === 'denied' ? (
         <div>
@@ -89,12 +107,9 @@ function NotificationSettings() {
         </div>
       ) : status === 'error' ? (
         <div>
-          <p className="text-sm text-red-500 mb-2">Hata oluştu.</p>
-          <p className="text-xs text-red-400 mb-3 leading-relaxed font-mono">{errMsg}</p>
-          <button
-            onClick={handleEnable}
-            className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors"
-          >
+          <p className="text-sm text-red-500 mb-1">Hata:</p>
+          <p className="text-xs text-red-400 mb-3 font-mono leading-relaxed">{errMsg}</p>
+          <button onClick={handleSubscribe} className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors">
             Tekrar Dene
           </button>
         </div>
@@ -104,11 +119,11 @@ function NotificationSettings() {
             Günde 3 hatırlatıcı: sabah planı, öğle kontrolü, akşam gün sonu.
           </p>
           <button
-            onClick={handleEnable}
-            disabled={status === 'loading'}
+            onClick={handleSubscribe}
+            disabled={status === 'loading' || status === 'checking'}
             className="px-4 py-2 bg-stone-900 text-white text-sm font-medium rounded-xl hover:bg-stone-800 transition-colors disabled:opacity-50"
           >
-            {status === 'loading' ? 'Kaydediliyor...' : 'Bildirimleri Aç'}
+            {status === 'loading' ? 'Kaydediliyor...' : status === 'checking' ? 'Kontrol ediliyor...' : 'Bildirimleri Aç'}
           </button>
         </div>
       )}
