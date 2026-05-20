@@ -34,7 +34,23 @@ export default async function AdminStudentsPage() {
 
   const supabase = await createClient()
 
-  const [{ data: students }, { data: allTeachers }] = await Promise.all([
+  type StudentRow = {
+    id: string
+    grade_level: string | null
+    remaining_lessons: number
+    status: string
+    created_at: string
+    profiles: { full_name: string; avatar_url: string | null } | null
+    teacher_assignments: Array<{
+      status: string
+      teachers: {
+        id: string
+        profiles: { full_name: string } | null
+      } | null
+    }>
+  }
+
+  const [{ data: rawStudents }, { data: allTeachers }] = await Promise.all([
     supabase
       .from('students')
       .select(
@@ -57,10 +73,13 @@ export default async function AdminStudentsPage() {
       .eq('status', 'active'),
   ])
 
+  const students = (rawStudents ?? []) as unknown as StudentRow[]
+
   // Flatten teacher list for dropdowns
-  const teacherOptions = (allTeachers ?? []).map((t) => ({
+  type TeacherOption = { id: string; profiles: { full_name: string } | null }
+  const teacherOptions = ((allTeachers ?? []) as unknown as TeacherOption[]).map((t) => ({
     id: t.id,
-    name: (t.profiles as { full_name: string } | null)?.full_name ?? 'İsimsiz',
+    name: t.profiles?.full_name ?? 'İsimsiz',
   }))
 
   return (
@@ -77,12 +96,12 @@ export default async function AdminStudentsPage() {
           Öğrenci Yönetimi
         </h1>
         <p className="text-sm" style={{ color: '#8A8F87' }}>
-          {students?.length ?? 0} öğrenci kayıtlı
+          {students.length} öğrenci kayıtlı
         </p>
       </div>
 
       <Card className="!p-0 overflow-hidden">
-        {!students || students.length === 0 ? (
+        {students.length === 0 ? (
           <div className="py-16 text-center">
             <p className="text-3xl mb-3" aria-hidden="true">
               👨‍🎓
@@ -120,20 +139,10 @@ export default async function AdminStudentsPage() {
               </thead>
               <tbody>
                 {students.map((student, idx) => {
-                  const profile = student.profiles as
-                    | { full_name: string; avatar_url: string | null }
-                    | null
-
-                  // Find the active teacher assignment
-                  const activeAssignment = (
-                    student.teacher_assignments as Array<{
-                      status: string
-                      teachers: {
-                        id: string
-                        profiles: { full_name: string } | null
-                      } | null
-                    }>
-                  )?.find((a) => a.status === 'active')
+                  const profile = student.profiles
+                  const activeAssignment = student.teacher_assignments?.find(
+                    (a) => a.status === 'active'
+                  )
 
                   const assignedTeacherName =
                     activeAssignment?.teachers?.profiles?.full_name ?? null

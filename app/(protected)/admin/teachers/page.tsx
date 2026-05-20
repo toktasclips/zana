@@ -44,7 +44,18 @@ export default async function AdminTeachersPage() {
 
   const supabase = await createClient()
 
-  const { data: teachers } = await supabase
+  type TeacherRow = {
+    id: string
+    branch: string | null
+    bio: string | null
+    experience_years: number | null
+    rating: number | null
+    status: string
+    created_at: string
+    profiles: { full_name: string; avatar_url: string | null } | null
+  }
+
+  const { data: rawTeachers } = await supabase
     .from('teachers')
     .select(
       `
@@ -53,6 +64,8 @@ export default async function AdminTeachersPage() {
     `
     )
     .order('created_at', { ascending: false })
+
+  const teachers = (rawTeachers ?? []) as unknown as TeacherRow[]
 
   return (
     <div
@@ -68,12 +81,12 @@ export default async function AdminTeachersPage() {
           Öğretmen Yönetimi
         </h1>
         <p className="text-sm" style={{ color: '#8A8F87' }}>
-          {teachers?.length ?? 0} öğretmen kayıtlı
+          {teachers.length} öğretmen kayıtlı
         </p>
       </div>
 
       <Card className="!p-0 overflow-hidden">
-        {!teachers || teachers.length === 0 ? (
+        {teachers.length === 0 ? (
           <div className="py-16 text-center">
             <p className="text-3xl mb-3" aria-hidden="true">
               👩‍🏫
@@ -111,9 +124,7 @@ export default async function AdminTeachersPage() {
               </thead>
               <tbody>
                 {teachers.map((teacher, idx) => {
-                  const profile = teacher.profiles as
-                    | { full_name: string; avatar_url: string | null }
-                    | null
+                  const profile = teacher.profiles
                   const isLast = idx === teachers.length - 1
 
                   return (

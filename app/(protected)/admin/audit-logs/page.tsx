@@ -78,7 +78,17 @@ export default async function AdminAuditLogsPage() {
 
   const supabase = await createClient()
 
-  const { data: logs } = await supabase
+  type AuditLogRow = {
+    id: string
+    action: string
+    entity_type: string
+    entity_id: string | null
+    metadata: Record<string, unknown> | null
+    created_at: string
+    actor_profile_id: string | null
+  }
+
+  const { data: rawLogs } = await supabase
     .from('audit_logs')
     .select(
       `
@@ -89,10 +99,12 @@ export default async function AdminAuditLogsPage() {
     .order('created_at', { ascending: false })
     .limit(50)
 
+  const logs = (rawLogs ?? []) as unknown as AuditLogRow[]
+
   // Resolve actor names in a single query
   const actorIds = [
     ...new Set(
-      (logs ?? [])
+      logs
         .map((l) => l.actor_profile_id)
         .filter((id): id is string => id !== null)
     ),
@@ -100,11 +112,11 @@ export default async function AdminAuditLogsPage() {
 
   const actorNames: Record<string, string> = {}
   if (actorIds.length > 0) {
-    const { data: profiles } = await supabase
+    const { data: rawProfiles } = await supabase
       .from('profiles')
       .select('id, full_name')
       .in('id', actorIds)
-    for (const p of profiles ?? []) {
+    for (const p of (rawProfiles ?? []) as { id: string; full_name: string }[]) {
       actorNames[p.id] = p.full_name
     }
   }

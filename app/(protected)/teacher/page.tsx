@@ -73,8 +73,17 @@ export default async function TeacherDashboardPage() {
 
   const today = new Date().toISOString().split('T')[0]
 
+  type LessonWithStudent = {
+    id: string
+    starts_at: string
+    ends_at: string
+    subject: string | null
+    status: string
+    students: { id: string; profiles: { full_name: string } | null } | null
+  }
+
   // Today's lessons
-  const { data: todayLessons } = await supabase
+  const { data: rawTodayLessons } = await supabase
     .from('lessons')
     .select(`
       id, starts_at, ends_at, subject, status,
@@ -87,6 +96,8 @@ export default async function TeacherDashboardPage() {
     .gte('starts_at', today + 'T00:00:00')
     .lte('starts_at', today + 'T23:59:59')
     .order('starts_at')
+
+  const todayLessons = (rawTodayLessons ?? []) as unknown as LessonWithStudent[]
 
   // Assigned students count
   const { count: studentCount } = await supabase
@@ -105,7 +116,7 @@ export default async function TeacherDashboardPage() {
     .gte('starts_at', monthStart)
 
   // Upcoming lessons (next 5, excluding today)
-  const { data: upcomingLessons } = await supabase
+  const { data: rawUpcomingLessons } = await supabase
     .from('lessons')
     .select(`
       id, starts_at, ends_at, subject, status,
@@ -119,6 +130,8 @@ export default async function TeacherDashboardPage() {
     .gt('starts_at', today + 'T23:59:59')
     .order('starts_at')
     .limit(5)
+
+  const upcomingLessons = (rawUpcomingLessons ?? []) as unknown as LessonWithStudent[]
 
   const firstName = profile?.full_name?.split(' ')[0] ?? 'Öğretmen'
 
@@ -194,7 +207,7 @@ export default async function TeacherDashboardPage() {
           Bugünkü Dersler
         </h2>
 
-        {!todayLessons || todayLessons.length === 0 ? (
+        {todayLessons.length === 0 ? (
           <Card>
             <p className="text-sm text-center py-4" style={{ color: '#8A8F87' }}>
               Bugün planlanmış ders bulunmuyor.
@@ -203,12 +216,7 @@ export default async function TeacherDashboardPage() {
         ) : (
           <div className="space-y-3">
             {todayLessons.map((lesson) => {
-              const student = Array.isArray(lesson.students)
-                ? lesson.students[0]
-                : lesson.students
-              const studentProfile = Array.isArray(student?.profiles)
-                ? student?.profiles[0]
-                : student?.profiles
+              const studentProfile = lesson.students?.profiles
 
               return (
                 <Card key={lesson.id} className="flex items-center gap-4">
@@ -269,7 +277,7 @@ export default async function TeacherDashboardPage() {
           </Link>
         </div>
 
-        {!upcomingLessons || upcomingLessons.length === 0 ? (
+        {upcomingLessons.length === 0 ? (
           <Card>
             <p className="text-sm text-center py-4" style={{ color: '#8A8F87' }}>
               Yaklaşan ders bulunmuyor.
@@ -278,12 +286,7 @@ export default async function TeacherDashboardPage() {
         ) : (
           <div className="space-y-3">
             {upcomingLessons.map((lesson) => {
-              const student = Array.isArray(lesson.students)
-                ? lesson.students[0]
-                : lesson.students
-              const studentProfile = Array.isArray(student?.profiles)
-                ? student?.profiles[0]
-                : student?.profiles
+              const studentProfile = lesson.students?.profiles
 
               return (
                 <Card key={lesson.id} className="flex items-center gap-4">

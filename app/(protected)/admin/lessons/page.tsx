@@ -83,7 +83,18 @@ export default async function AdminLessonsPage({
     query = query.eq('status', activeFilter)
   }
 
-  const { data: lessons } = await query
+  type LessonRow = {
+    id: string
+    subject: string | null
+    starts_at: string
+    ends_at: string
+    status: LessonStatus
+    students: { profiles: { full_name: string } | null } | null
+    teachers: { profiles: { full_name: string } | null } | null
+  }
+
+  const { data: rawLessons } = await query
+  const lessons = (rawLessons ?? []) as unknown as LessonRow[]
 
   return (
     <div
@@ -100,7 +111,7 @@ export default async function AdminLessonsPage({
             Ders Yönetimi
           </h1>
           <p className="text-sm" style={{ color: '#8A8F87' }}>
-            {lessons?.length ?? 0} ders
+            {lessons.length} ders
             {activeFilter ? ` · ${STATUS_LABELS[activeFilter]}` : ' · Tümü'}
           </p>
         </div>
@@ -108,7 +119,7 @@ export default async function AdminLessonsPage({
       </div>
 
       <Card className="!p-0 overflow-hidden">
-        {!lessons || lessons.length === 0 ? (
+        {lessons.length === 0 ? (
           <div className="py-16 text-center">
             <p className="text-3xl mb-3" aria-hidden="true">
               📅
@@ -144,16 +155,8 @@ export default async function AdminLessonsPage({
               </thead>
               <tbody>
                 {lessons.map((lesson, idx) => {
-                  const studentProfile = (
-                    lesson.students as {
-                      profiles: { full_name: string } | null
-                    } | null
-                  )?.profiles
-                  const teacherProfile = (
-                    lesson.teachers as {
-                      profiles: { full_name: string } | null
-                    } | null
-                  )?.profiles
+                  const studentProfile = lesson.students?.profiles
+                  const teacherProfile = lesson.teachers?.profiles
                   const isLast = idx === lessons.length - 1
 
                   return (

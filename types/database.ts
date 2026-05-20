@@ -28,6 +28,7 @@ export type Database = {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       students: {
         Row: {
@@ -57,6 +58,7 @@ export type Database = {
           status?: string
           created_at?: string
         }
+        Relationships: []
       }
       teachers: {
         Row: {
@@ -89,6 +91,7 @@ export type Database = {
           status?: string
           created_at?: string
         }
+        Relationships: []
       }
       teacher_assignments: {
         Row: {
@@ -112,6 +115,7 @@ export type Database = {
           status?: string
           created_at?: string
         }
+        Relationships: []
       }
       lessons: {
         Row: {
@@ -147,6 +151,7 @@ export type Database = {
           lesson_notes?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       lesson_packages: {
         Row: {
@@ -185,6 +190,7 @@ export type Database = {
           status?: string
           created_at?: string
         }
+        Relationships: []
       }
       messages: {
         Row: {
@@ -214,6 +220,7 @@ export type Database = {
           flagged?: boolean
           created_at?: string
         }
+        Relationships: []
       }
       audit_logs: {
         Row: {
@@ -243,9 +250,24 @@ export type Database = {
           metadata?: Record<string, unknown> | null
           created_at?: string
         }
+        Relationships: []
       }
     }
-    Views: Record<string, never>
+    Views: {
+      public_teacher_cards: {
+        Row: {
+          id: string
+          full_name: string
+          avatar_url: string | null
+          branch: string | null
+          bio: string | null
+          experience_years: number | null
+          rating: number | null
+          status: string
+        }
+        Relationships: []
+      }
+    }
     Functions: Record<string, never>
     Enums: {
       user_role: UserRole

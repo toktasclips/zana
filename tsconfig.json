@@ -30,5 +30,15 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "components/plan",
+    "components/tasks",
+    "components/content",
+    "components/dashboard",
+    "components/settings",
+    "components/eod",
+    "components/writing",
+    "components/shared"
+  ]
 }

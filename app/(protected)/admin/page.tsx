@@ -46,7 +46,8 @@ export default async function AdminDashboardPage() {
       .from('audit_logs')
       .select('id, action, entity_type, created_at, actor_profile_id')
       .order('created_at', { ascending: false })
-      .limit(5),
+      .limit(5)
+      .returns<{ id: string; action: string; entity_type: string; created_at: string; actor_profile_id: string | null }[]>(),
   ])
 
   return (

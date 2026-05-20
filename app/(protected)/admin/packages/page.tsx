@@ -86,7 +86,20 @@ export default async function AdminPackagesPage() {
 
   const supabase = await createClient()
 
-  const { data: packages } = await supabase
+  type PackageRow = {
+    id: string
+    package_name: string
+    total_lessons: number
+    used_lessons: number
+    remaining_lessons: number
+    starts_at: string | null
+    expires_at: string | null
+    status: string
+    created_at: string
+    students: { profiles: { full_name: string } | null } | null
+  }
+
+  const { data: rawPackages } = await supabase
     .from('lesson_packages')
     .select(
       `
@@ -98,6 +111,8 @@ export default async function AdminPackagesPage() {
     `
     )
     .order('created_at', { ascending: false })
+
+  const packages = (rawPackages ?? []) as unknown as PackageRow[]
 
   return (
     <div
@@ -113,12 +128,12 @@ export default async function AdminPackagesPage() {
           Ders Paketleri
         </h1>
         <p className="text-sm" style={{ color: '#8A8F87' }}>
-          {packages?.length ?? 0} paket kayıtlı
+          {packages.length} paket kayıtlı
         </p>
       </div>
 
       <Card className="!p-0 overflow-hidden">
-        {!packages || packages.length === 0 ? (
+        {packages.length === 0 ? (
           <div className="py-16 text-center">
             <p className="text-3xl mb-3" aria-hidden="true">
               📦
@@ -156,11 +171,7 @@ export default async function AdminPackagesPage() {
               </thead>
               <tbody>
                 {packages.map((pkg, idx) => {
-                  const studentProfile = (
-                    pkg.students as {
-                      profiles: { full_name: string } | null
-                    } | null
-                  )?.profiles
+                  const studentProfile = pkg.students?.profiles
                   const isLast = idx === packages.length - 1
 
                   return (
