@@ -30,7 +30,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="register-sw" strategy="afterInteractive">
           {`
             if ('serviceWorker' in navigator) {
-              navigator.serviceWorker.register('/sw.js').catch(() => {});
+              navigator.serviceWorker.register('/sw.js').then(reg => {
+                // Listen for push messages forwarded from SW when tab is focused
+                navigator.serviceWorker.addEventListener('message', event => {
+                  if (event.data?.type !== 'push') return;
+                  const toast = document.createElement('div');
+                  toast.textContent = event.data.title + (event.data.body ? ': ' + event.data.body : '');
+                  toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1c1917;color:#fff;padding:12px 18px;border-radius:14px;font-size:14px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:320px;line-height:1.4;';
+                  document.body.appendChild(toast);
+                  setTimeout(() => toast.remove(), 4500);
+                });
+              }).catch(() => {});
             }
           `}
         </Script>
