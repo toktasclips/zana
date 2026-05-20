@@ -38,11 +38,10 @@ export default function Sidebar({ currentPage, onNavigate, isOpen }: SidebarProp
             key={item.id}
             onClick={() => onNavigate(item.id)}
             className={`
-              w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium
-              transition-all mb-0.5
+              nav-item w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium mb-0.5
               ${currentPage === item.id
-                ? 'bg-stone-900 text-white'
-                : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900'
+                ? 'nav-item-active'
+                : 'text-stone-600'
               }
             `}
           >

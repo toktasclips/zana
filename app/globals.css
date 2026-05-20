@@ -4,6 +4,81 @@
   box-sizing: border-box;
 }
 
+/* ── Clickable elements: cursor + transition ── */
+button,
+a,
+[role="button"],
+[role="tab"],
+[role="menuitem"],
+label[for],
+select {
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+button:disabled,
+button[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* ── Light/ghost buttons & interactive surfaces ── */
+button:not(:disabled):not(.btn-dark):hover {
+  transform: translateY(-1px);
+}
+
+/* ── Focus visible (keyboard nav) ── */
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.18);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Dark primary buttons ── */
+button[class*="bg-stone-900"]:not(:disabled):hover,
+button[class*="bg-stone-800"]:not(:disabled):hover {
+  background-color: #44403c !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
+}
+
+/* ── Light/ghost buttons ── */
+button[class*="bg-stone-100"]:not(:disabled):hover,
+button[class*="bg-stone-50"]:not(:disabled):hover {
+  background-color: #e7e5e4 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+  transform: translateY(-1px);
+}
+
+/* ── Red/danger buttons ── */
+button[class*="bg-red"]:not(:disabled):hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* ── Small icon-only buttons (p-1 / p-1.5 / p-2 rounded) ── */
+button[class*="rounded-full"]:not(:disabled):hover,
+button[class*="rounded-lg"]:not(:disabled):hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Sidebar nav items ── */
+.nav-item {
+  transition: all 180ms ease;
+  cursor: pointer;
+}
+.nav-item:not(.nav-item-active):hover {
+  background-color: #f5f5f4; /* stone-100 */
+  transform: translateX(2px);
+}
+.nav-item-active {
+  background-color: #1c1917;
+  color: #fff;
+}
+
 html,
 body {
   height: 100%;
