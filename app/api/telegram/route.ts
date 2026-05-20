@@ -23,10 +23,15 @@ export async function POST(request: Request) {
 
   // /start — save chat_id for notifications
   if (text.startsWith('/start')) {
-    await db.from('settings').update({ telegram_chat_id: chatId }).eq('id', 1);
+    let saved = false;
+    try {
+      const { error } = await db.from('settings').update({ telegram_chat_id: chatId }).eq('id', 1);
+      saved = !error;
+    } catch { /* column may not exist yet */ }
+
     await send(chatId,
       '👋 Merhaba! Ben Kafi botuyum.\n\n' +
-      '✅ Bu sohbet bildirimler için kaydedildi.\n\n' +
+      (saved ? '✅ Bu sohbet bildirimler için kaydedildi.\n\n' : '') +
       '<b>Komutlar:</b>\n' +
       '/liste — Açık görevleri listele\n' +
       '/bugün — Bugünün planını göster\n' +
